@@ -1,12 +1,21 @@
 //import React, {useEffect, useState} from "react";
-import Typography from '@mui/material/Typography';
+import { Typography, CssBaseline, Container} from '@mui/material';
 //import {serveur} from "./constantes"
 
 const Home = () => {
     return (
-      <div>
-          <Typography variant="h1"> FoodKeeper </Typography>
-      </div>
+      <>
+        <CssBaseline/>
+        <main>
+            <div>
+                <Container maxWidth="sm">
+                    <Typography align="center" variant="h1">
+                        FoodKeeper
+                    </Typography>
+                </Container>
+            </div>
+        </main>
+      </>
     );
 }
 
