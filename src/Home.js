@@ -20,7 +20,7 @@ const Home = () => {
       <>
         <CssBaseline/>
         <main>
-            <div className={classes.background} style={{ backgroundImage: `url(${backgroundGif})` }}>
+                <div className={classes.backgroundGif} style={{ backgroundImage: `url(${backgroundGif})` }}>
                 <Container maxWidth="sm">
                         <Typography className={classes.title} align="center" variant="h1" color='#e8eaf6' gutterBottom>
                             FoodKeeper

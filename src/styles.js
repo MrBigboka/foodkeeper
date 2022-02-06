@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(8, 0, 6)
     },
-    background: {
+    backgroundGif: {
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(18, 0, 6),
         minHeight: '80vh',
@@ -13,6 +13,15 @@ const useStyles = makeStyles((theme) => ({
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize:'100%',
+    },
+    background: {
+        backgroundColor: theme.palette.background.paper,
+        padding: theme.spacing(8, 0, 6),
+        minHeight: '80vh',
+        width: '100%',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100%',
     },
     title: {
         textAlign: 'center',
@@ -34,6 +43,20 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: 13, 
         textDecoration: 'none',
         color: 'white'
+    },
+    card: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    cardGrid: {
+        padding: '20px 0'
+    },
+    cardMedia: {
+        paddingTop: '56.25%' //16:9
+    },
+    cardContent: {
+        flexGrow: 1,
     },
 }));
 
