@@ -4,6 +4,7 @@ import Home from './Home';
 import Login from './Login';
 import Menu from './components/Menu'
 import Register from './Register';
+import Footer from './components/Footer'
 export const UnContexte = React.createContext();
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
               <Route path="/login" element={<Login/>}/>
               <Route path="/register" element={<Register/>}/>
           </Routes>
+          <Footer/>
       </BrowserRouter>
     </div>
   );

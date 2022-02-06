@@ -1,7 +1,6 @@
 //import React, {useEffect, useState} from "react";
 import { Typography, CssBaseline, Container, Button, Stack} from '@mui/material';
 import backgroundGif from './media/foodkeep.gif'
-import Footer from './components/Footer'
 //import {serveur} from "./constantes"
 import useStyles from './styles';
 import { useNavigate } from "react-router-dom";
@@ -54,7 +53,6 @@ const Home = () => {
                 </Container>
             </div>
         </main>
-        <Footer/>
       </>
     );
 }
