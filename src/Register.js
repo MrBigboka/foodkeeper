@@ -16,6 +16,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const theme = createTheme();
 
 export default function SignUp() {
+    const [checked, setChecked] = React.useState(true);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -24,10 +26,14 @@ export default function SignUp() {
             name: data.get('firstName'),
             email: data.get('email'),
             password: data.get('password'),
-            isRestaurateur: data.get('isRestaurateur'),
+            isRestaurateur: checked ,
         });
+        if (checked)
+            console.log({nomResto: data.get('restaurantName')});
     };
-
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+    };
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -44,11 +50,11 @@ export default function SignUp() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign up
+                        Créer un compte FoodKeeper
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12}>
                                 <TextField
                                     autoComplete="given-name"
                                     name="firstName"
@@ -57,16 +63,6 @@ export default function SignUp() {
                                     id="firstName"
                                     label="Nom"
                                     autoFocus
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="family-name"
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -92,10 +88,23 @@ export default function SignUp() {
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControlLabel
-                                    control={<Checkbox name="allowExtraEmails" id="allowExtraEmails" value="true" color="primary" />}
+                                    control={<Checkbox checked={checked}
+                                                       onChange={handleChange}
+                                                       name="isRestaurateur" id="isRestaurateur" value="true" color="primary" />}
                                     label="Je voudrais m'inscrire en tant que restaurateur."
                                 />
                             </Grid>
+                            { checked &&
+                                <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="restaurantName"
+                                        label="Nom du restaurant "
+                                        type="name"
+                                        id="restaurantName"
+                                    />
+                                </Grid>}
                         </Grid>
                         <Button
                             type="submit"
@@ -107,8 +116,8 @@ export default function SignUp() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
-                                    Already have an account? Sign in
+                                <Link href="/login" variant="body2">
+                                    {"Déjà un compte? Se connecter"}
                                 </Link>
                             </Grid>
                         </Grid>
