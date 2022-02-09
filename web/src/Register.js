@@ -22,7 +22,7 @@ export default function SignUp() {
     const [nomResto, setNomResto] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const [checked, setChecked] = React.useState(true);
+    const [checked, setChecked] = React.useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();

@@ -1,12 +1,10 @@
 import * as React from 'react';
-import {useState} from "react";
+import {useState, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -14,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import AlarmOn from '@mui/icons-material/AlarmOn';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { TokenContext } from "./App";
 
 const theme = createTheme();
 
@@ -21,7 +20,7 @@ export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    // const context = useContext(tokenContext);
+    const context = useContext(TokenContext);
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
@@ -36,9 +35,9 @@ export default function Login() {
         });
         if (response.ok) {
             const data = await response.json();
-            // context.setToken(data.token);
+            context.setToken(data.token);
             console.log(data);
-            // navigate("/");
+            navigate("/");
         } else {
             console.error(response.statusText);
             alert('Mauvais login!');
