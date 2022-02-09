@@ -1,0 +1,305 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Service de données pour l'application TweetDroid
+paths:
+  # /comments/albums:
+  #   get:
+  #     description: Liste des posts par artiste
+  #     responses:
+  #       '200':
+  #         description: La liste est retournée
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 properties:
+  #                   ArtisteId:
+  #                     type: number
+  #                   Nom:
+  #                     type: string
+  #                   Albums:
+  #                     type: array
+  #                     items:
+  #                       $ref: '#/components/schemas/Album'
+  # /genres:
+  #   get:
+  #     description: Liste des genres
+  #     responses:
+  #       '200':
+  #         description: La liste des genres est retournée
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 $ref: '#/components/schemas/Genre'
+  /posts:
+    get:
+      parameters:
+      - in: query
+        name: userId
+        schema:
+          type: integer
+        description: Retourne les publications de l'utilisateur avec ce userId
+      - in: query
+        name: postId
+        schema:
+          type: integer
+        description: Retourne la publication avec ce postId
+      - in: query
+        name: tagName
+        schema:
+          type: integer
+        description: Retourne les publications avec ce tagName
+      - in: query
+        name: userName
+        schema:
+          type: integer
+        description: Retourne les publications de l'utilisateur avec ce userName
+      description: Liste des posts
+      responses:
+        '200':
+          description: La liste des posts est retournée
+          content:
+            application/json:
+              schema:
+                type: array
+  /auth/create-token:
+    post:
+      summary: Route pour créer un jeton d'authentification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenCreationPayload'
+      responses:
+        '200':
+          description: La réponse lorsque le jeton est créé.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenCreationResponse'
+        '401':
+          description: Non autorisé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuatreCentUn'
+  /auth/register/:
+    post:
+      summary: Route pour créer un utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreationPayload'
+      responses:
+        '201':
+          description: La réponse lorsque l'utilisateur est créé.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreationResponse'
+        '400':
+          description: Une erreur s'est produite pendant le insert
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  # /post:
+  #   get:
+  #     security:
+  #       - bearerAuth: []
+  #     summary: Retourne les items du post de l'utilisateur
+  #     responses:
+  #       '200':
+  #         description: les items du post de l'utilisateur
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 $ref: '#/components/schemas/Album'
+  #       '401':
+  #         description: Not authorized
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/QuatreCentUn'
+  #       '404':
+  #         description: L'utilisateur n'existe pas
+  #         content:
+  #           application/json:
+  #             schema:
+  #                 $ref: '#/components/schemas/ErrorMessage'
+  #   post:
+  #     security:
+  #       - bearerAuth: []
+  #     summary: Ajoute un album au post de l'utilisateur
+  #     parameters:
+  #       - in: query
+  #         name: AlbumId
+  #         schema:
+  #           type: integer
+  #         required: true
+  #         description: AlbumId de l'album
+  #     responses:
+  #       '200':
+  #         description: L'album a été ajouté au post de l'utilisateur
+  #       '400':
+  #         description: L'AlbumId n'a pas été fourni ou cet AlbumId n'existe pas
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/ErrorMessage'
+  #       '401':
+  #         description: Not authorized
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/QuatreCentUn'
+  #       '404':
+  #         description: L'utilisateur n'existe pas
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/ErrorMessage'
+  #   delete:
+  #     security:
+  #       - bearerAuth: []
+  #     summary: Supprime un album au post de l'utilisateur
+  #     parameters:
+  #       - in: query
+  #         name: AlbumId
+  #         schema:
+  #           type: integer
+  #         required: true
+  #         description: AlbumId de l'album
+  #     responses:
+  #       '200':
+  #         description: L'album a été suprimé au post de l'utilisateur
+  #       '400':
+  #         description: L'AlbumId n'a pas été fourni ou cet AlbumId n'existe pas
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/ErrorMessage'
+  #       '401':
+  #         description: Not authorized
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/QuatreCentUn'
+  #       '404':
+  #         description: L'utilisateur n'existe pas
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/ErrorMessage'
+components:
+  securitySchemes:
+     bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+  schemas:
+    TokenCreationPayload:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: 'macurie@science.com'
+        password: 'test123'
+    TokenCreationResponse:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+      example:
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjIsIm5hbWUiOiJNYXJpZSBDdXJpZSIsImVtYWlsIjoibWFjdXJpZUBzY2llbmNlLmNvbSIsImlhdCI6MTYxOTIyNjkxNn0.Nn0SP4ZzW4jaOu_Q47Cq-NPm545zfxJmY7ww7GWyJL0'
+    ErrorMessage:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      example:
+        message: 'Un message d''erreur descriptif.'
+    QuatreCentUn:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      example:
+        message: 'Not Authorized.  Un message d''erreur descriptif.'
+    UserCreationPayload:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        username: user99
+        email: user99@science.com
+        password: mdpuser99
+    UserCreationResponse:
+      type: object
+      required:
+        - userid
+        - email
+        - username
+      properties:
+        userid:
+          type: number
+        email:
+          type: string
+        username:
+          type: string
+      example:
+        userid: 1
+        username: user01
+        email: user01@site.com
+    User:
+      type: object
+      required:
+        - user
+      properties:
+        user:
+          type: object
+          required:
+            - userid
+            - username
+            - email
+          properties:
+            userid:
+              type: number
+            username:
+              type: string
+            email:
+              type: string
+          example:
+            userid: 1
+            username: user01
+            email: user01@site.com
