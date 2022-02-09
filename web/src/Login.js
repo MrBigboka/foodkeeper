@@ -18,33 +18,27 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const theme = createTheme();
 
 export default function Login() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
     // const context = useContext(tokenContext);
     const navigate = useNavigate();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        login();
+    };
     async function login() {
-        // console.log(email, password);
-        const response = await fetch('http://tweetdroid.herokuapp.com/auth/create-token', {
+        const response = await fetch('http://localhost:3000/auth/create-token', {
             method: 'POST',
-            body: JSON.stringify({ Password:password, Email:email }),
+            body: JSON.stringify({ password:password, username:username }),
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
         });
         if (response.ok) {
             const data = await response.json();
-            // traiter les données reçues et stocker le bearer token
-            // pour utilisation future
             // context.setToken(data.token);
             console.log(data);
-            navigate("/");
+            // navigate("/");
         } else {
             console.error(response.statusText);
             alert('Mauvais login!');
@@ -89,11 +83,11 @@ export default function Login() {
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="email"
-                                label="Courriel"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
+                                id="username"
+                                label="Nom d'utilisateur"
+                                name="username"
+                                autoComplete="username"
+                                autoFocus value={username} onInput={e => setUsername(e.target.value)}
                             />
                             <TextField
                                 margin="normal"
@@ -103,7 +97,7 @@ export default function Login() {
                                 label="Mot de passe"
                                 type="password"
                                 id="password"
-                                autoComplete="current-password"
+                                autoComplete="current-password" value={password} onInput={e => setPassword(e.target.value)}
                             />
                             <Button
                                 type="submit"

@@ -1,0 +1,15 @@
+CREATE TABLE users (
+id int IDENTITY(1,1) PRIMARY KEY,
+username varchar(255) NOT NULL,
+password varchar(255) NOT NULL,
+type bit NOT NULL,
+);
+
+CREATE TABLE restaurants (
+id int IDENTITY(1,1) PRIMARY KEY,
+usernameId int FOREIGN KEY REFERENCES users(id),
+description varchar(255),
+photo varchar(255),
+capacites int,
+nbTables int
+);

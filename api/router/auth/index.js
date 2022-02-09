@@ -35,19 +35,23 @@ router.post('/create-token/', async (request, response) => {
 });
 
 router.post('/register/', async (request, response) => {
-  const { username, type, password } = request.body;
-  // console.log(request.body);
-  if (!(username && type && password)) {
+  const { username, type, password, nomResto } = request.body;
+  console.log(request.body);
+  if (!(username && password)) {
     return response.status(401).json({ message: 'Erreur: Remplir les champs' });
   }
   const hashedPassword = await bcrypt.hash(password, 8);
   let userids = [];
   let body = null;
-
+  if (type && nomResto === '') {
+    return response.status(401).json({ message: 'Erreur: Il faut avoir un nom de restaurant' });
+  }
+  const nomRestoExists = await db('restaurants').where('nomResto', nomResto).first();
+  if (nomRestoExists) {
+    return response.status(403).json({ message: 'Erreur: nomResto taken' });
+  }
   const usernameExists = await db('users').where('username', username).first();
   if (usernameExists) {
-    delete usernameExists.Password;
-    // console.log(usernameExists);
     return response.status(403).json({ message: 'Erreur: Username taken' });
   }
 
@@ -60,6 +64,14 @@ router.post('/register/', async (request, response) => {
       }, 'id');
     const userid = userids[0];
     body = { userid, type, username };
+    if (type) {
+      restoids = await db('restaurants')
+          .insert({
+            usernameId: userid,
+            nomResto: nomResto,
+          }, 'id');
+      console.log(restoids);
+    }
   } catch (e) {
     console.log('Une erreur s\'est produite pendant le insert', e.message);
     return response.status(400).json({ message: e.message });

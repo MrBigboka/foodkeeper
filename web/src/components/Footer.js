@@ -2,11 +2,11 @@ import useStyles from '../styles';
 import { Typography } from '@mui/material';
 
 const Footer = () => {
-    const classes = useStyles(); 
+    const classes = useStyles();
 
     return (
         <footer className={classes.footer}>
-            <Typography variant="h6" align="center" gutterbottom>
+            <Typography variant="h6" align="center">
                 FoodKeeper
             </Typography>
             <Typography variant="subtitle1" align="center" color="textSecondary">

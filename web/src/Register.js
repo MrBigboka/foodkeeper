@@ -12,10 +12,16 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignUp() {
+    const [username, setUsername] = useState('');
+    const [nomResto, setNomResto] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
     const [checked, setChecked] = React.useState(true);
 
     const handleSubmit = (event) => {
@@ -23,17 +29,36 @@ export default function SignUp() {
         const data = new FormData(event.currentTarget);
         // eslint-disable-next-line no-console
         console.log({
-            name: data.get('firstName'),
-            email: data.get('email'),
-            password: data.get('password'),
+            username,
+            password,
             isRestaurateur: checked ,
         });
         if (checked)
-            console.log({nomResto: data.get('restaurantName')});
+            console.log(nomResto);
+        register();
     };
     const handleChange = (event) => {
         setChecked(event.target.checked);
     };
+    async function register() {
+        if (checked)
+            console.log(nomResto);
+        const response = await fetch('http://localhost:3000/auth/register', {
+            method: 'POST',
+            body: JSON.stringify({ password:password, username:username, type:checked, nomResto }),
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        });
+        if (response.ok) {
+            const data = await response.json();
+            // context.setToken(data.token);
+            console.log(data);
+            alert('Inscription faite, veuillez vous connecter');
+            navigate("/login");
+        } else {
+            console.error(response.statusText);
+            alert('Mauvais register!');
+        }
+    }
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -56,23 +81,13 @@ export default function SignUp() {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
-                                    autoComplete="given-name"
-                                    name="firstName"
+                                    autoComplete="username"
+                                    name="username"
                                     required
                                     fullWidth
-                                    id="firstName"
+                                    id="username"
                                     label="Nom"
-                                    autoFocus
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Courriel"
-                                    name="email"
-                                    autoComplete="email"
+                                    autoFocus value={username} onInput={e => setUsername(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -83,7 +98,7 @@ export default function SignUp() {
                                     label="Mot de passe "
                                     type="password"
                                     id="password"
-                                    autoComplete="new-password"
+                                    autoComplete="new-password" value={password} onInput={e => setPassword(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -99,10 +114,10 @@ export default function SignUp() {
                                     <TextField
                                         required
                                         fullWidth
-                                        name="restaurantName"
+                                        name="nomResto"
                                         label="Nom du restaurant "
                                         type="name"
-                                        id="restaurantName"
+                                        id="nomResto" value={nomResto} onInput={e => setNomResto(e.target.value)}
                                     />
                                 </Grid>}
                         </Grid>
