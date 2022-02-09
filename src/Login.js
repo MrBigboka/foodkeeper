@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -25,7 +27,29 @@ export default function Login() {
             password: data.get('password'),
         });
     };
-
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    // const context = useContext(tokenContext);
+    const navigate = useNavigate();
+    async function login() {
+        // console.log(email, password);
+        const response = await fetch('http://tweetdroid.herokuapp.com/auth/create-token', {
+            method: 'POST',
+            body: JSON.stringify({ Password:password, Email:email }),
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        });
+        if (response.ok) {
+            const data = await response.json();
+            // traiter les données reçues et stocker le bearer token
+            // pour utilisation future
+            // context.setToken(data.token);
+            console.log(data);
+            navigate("/");
+        } else {
+            console.error(response.statusText);
+            alert('Mauvais login!');
+        }
+    }
     return (
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
