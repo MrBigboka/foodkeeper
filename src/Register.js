@@ -121,6 +121,8 @@ export default function SignUp() {
                                 </Link>
                             </Grid>
                         </Grid>
+                        <br/>
+                        <br/>
                     </Box>
                 </Box>
             </Container>
