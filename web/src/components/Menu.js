@@ -10,12 +10,19 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useStyles from '../styles';
 
+import {useState, useContext} from "react";
+import {TokenContext} from "../App";
 export default function Menu() {
     const navigate = useNavigate();
-    const classes = useStyles(); 
-
+    const classes = useStyles();
+    const tokenContext = useContext(TokenContext);
+    console.log(tokenContext.token);
     const login = () => {
         navigate('/login');
+    }
+    const logout = () => {
+        tokenContext.token = "";
+        navigate('/');
     }
 
     return (
@@ -36,7 +43,11 @@ export default function Menu() {
                             FoodKeeper
                              </Link>
                         </Typography>
-                    <Button color="inherit" onClick={login}>Se connecter</Button>
+                    {
+                        tokenContext.token === ""
+                            ? (<Button color="inherit" onClick={login}>Se connecter</Button>)
+                            : (<Button color="inherit" onClick={logout}>Se deconnecter</Button>)
+                    }
                 </Toolbar>
             </AppBar>
         </Box>
