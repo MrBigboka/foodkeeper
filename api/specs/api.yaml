@@ -5,7 +5,7 @@ info:
 paths:
   # /comments/albums:
   #   get:
-  #     description: Liste des posts par artiste
+  #     description: Liste des restaurants par artiste
   #     responses:
   #       '200':
   #         description: La liste est retournée
@@ -58,10 +58,10 @@ paths:
         schema:
           type: integer
         description: Retourne les publications de l'utilisateur avec ce userName
-      description: Liste des posts
+      description: Liste des restaurants
       responses:
         '200':
-          description: La liste des posts est retournée
+          description: La liste des restaurants est retournée
           content:
             application/json:
               schema:

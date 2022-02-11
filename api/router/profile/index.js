@@ -7,71 +7,99 @@ const router = express.Router();
 router.get('/', async (request, response) => {
   console.log('L\'identité reliée au bearer token est:', JSON.stringify(request.user, null, 4));
   // console.log(request.user.UserId);
-  const { UserId } = request.user;
-  const user = await db('users').select('Username', 'ProfilePic').where('UserId', UserId).first();
-  if (!user) { return response.status(404).json({ message: 'Utilisateur non existant' }); }
-  user.posts = await db('posts').where('UserId', UserId);
-  user.comments = await db('comments').where('UserId', UserId);
+  const { id } = request.user;
+  const user = await db('users').where('id', id).first();
+  delete user.password;
+  console.log(user);
+  // si restaurateur -> xxxx
+  if (user.type) {
+    const restaurant = await db('restaurants').where('usernameId', user.id).first();
+    console.log(restaurant);
+    let body = {};
+    body.user = user;
+    body.restaurant = restaurant;
+    return response.status(200).json(body);
+  }
   return response.status(200).json(user);
 });
 
 router.post('/', async (request, response) => {
+  function throwError() {
+    return response.status(404).json('Erreur, mettre les bons details');
+  }
   console.log('L\'identité reliée au bearer token est:', JSON.stringify(request.user, null, 4));
+  const user = request.user;
+  console.log(user);
   const updates = [];
   const {
-    Username, ProfilePic, Email, Password, ConfirmPassword,
+    description, capacites, nbTables, nomResto,
   } = request.body;
-  if (Username) {
-    const usernameExists = await db('users').where('Username', Username).first();
-    if (usernameExists) {
-      delete usernameExists.Password;
-      return response.status(403).json({ message: 'Erreur: Username taken' });
+  if (description) {
+    await db('restaurants').where('usernameId', user.id).update('description', description);
+    updates.push('description');
+  }
+  if (capacites) {
+    if (parseInt(capacites) > 0) {
+      await db('restaurants').where('usernameId', user.id).update('capacites', capacites);
+      updates.push('capacites');
     }
-    await db('users').where('UserId', request.user.UserId).update('Username', Username);
-    updates.push('Username');
   }
-  if (ProfilePic) {
-    await db('users').where('UserId', request.user.UserId).update('ProfilePic ', ProfilePic);
-    updates.push('Profile Picture');
-  }
-  if (Email) {
-    const emailExists = await db('users').where('Email', Email).first();
-    if (emailExists) {
-      delete emailExists.Password;
-      return response.status(403).json({ message: 'Erreur: Email taken' });
+  if (nbTables) {
+    if (parseInt(nbTables) > 0) {
+      await db('restaurants').where('usernameId', user.id).update('nbTables', nbTables);
+      updates.push('nbTables');
     }
-    await db('users').where('UserId', request.user.UserId).update('Email', Email);
-    updates.push('Email');
   }
-  if (Password && ConfirmPassword && Password === ConfirmPassword) {
-    const hashedPassword = await bcrypt.hash(Password, 8);
-    await db('users').where('UserId', request.user.UserId).update('Password', hashedPassword);
-    updates.push('Password');
+  if (nomResto) {
+    const nomRestoExists = await db('restaurants').where('nomResto', nomResto).first();
+    if (nomRestoExists) {
+      return response.status(403).json({ message: 'Erreur: nomResto deja pris' });
+    }
+    await db('restaurants').where('usernameId', user.id).update('nomResto', nomResto);
+    updates.push('nomResto');
   }
-  if (updates.length === 0) {
-    return response.status(200).json('Aucun changement');
-  }
+  // if (ProfilePic) {
+  //   await db('users').where('UserId', request.user.UserId).update('ProfilePic ', ProfilePic);
+  //   updates.push('Profile Picture');
+  // }
+  // if (Email) {
+  //   const emailExists = await db('users').where('Email', Email).first();
+  //   if (emailExists) {
+  //     delete emailExists.Password;
+  //     return response.status(403).json({ message: 'Erreur: Email taken' });
+  //   }
+  //   await db('users').where('UserId', request.user.UserId).update('Email', Email);
+  //   updates.push('Email');
+  // }
+  // if (Password && ConfirmPassword && Password === ConfirmPassword) {
+  //   const hashedPassword = await bcrypt.hash(Password, 8);
+  //   await db('users').where('UserId', request.user.UserId).update('Password', hashedPassword);
+  //   updates.push('Password');
+  // }
+  // if (updates.length === 0) {
+  //   return response.status(200).json('Aucun changement');
+  // }
   return response.status(200).json(`Les changements: ${updates.join(' / ')}`);
 });
 
-router.delete('/', async (request, response) => {
-  await db('comments').where('UserId', request.user.UserId).update('Comment', '[deleted]');
-  await db('posts').where('UserId', request.user.UserId).update({
-    TagName: '[deleted]',
-    Title: '[deleted]',
-    Description: '[deleted]',
-    Image: null,
-    username: '[deleted]',
-  });
-  await db('users').update({
-    Username: '[deleted]',
-    ProfilePic: null,
-    Email: '[deleted]',
-    Password: 1, // On ne peut plus accéder au compte de cette facon
-  }).where('UserId', request.user.UserId);
-  await db('rating').delete().where('UserId', request.user.UserId);
-  console.log('L\'identité reliée au bearer token est:', JSON.stringify(request.user));
-  return response.status(200).json('Supprimé');
-});
+// router.delete('/', async (request, response) => {
+//   await db('comments').where('UserId', request.user.UserId).update('Comment', '[deleted]');
+//   await db('restaurants').where('UserId', request.user.UserId).update({
+//     TagName: '[deleted]',
+//     Title: '[deleted]',
+//     Description: '[deleted]',
+//     Image: null,
+//     username: '[deleted]',
+//   });
+//   await db('users').update({
+//     Username: '[deleted]',
+//     ProfilePic: null,
+//     Email: '[deleted]',
+//     Password: 1, // On ne peut plus accéder au compte de cette facon
+//   }).where('UserId', request.user.UserId);
+//   await db('rating').delete().where('UserId', request.user.UserId);
+//   console.log('L\'identité reliée au bearer token est:', JSON.stringify(request.user));
+//   return response.status(200).json('Supprimé');
+// });
 
 module.exports = router;
