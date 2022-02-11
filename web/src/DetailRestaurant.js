@@ -1,86 +1,125 @@
-//import React, {useEffect, useState} from "react";
-import { Typography, CssBaseline, Container, ImageList, ImageListItem} from '@mui/material';
-import backgroundGif from './media/foodkeep.gif'
+import React, {useState} from "react";
+import { Typography, CssBaseline, Container, Grid, Button, Modal, Box, Stack, TextField } from '@mui/material';
 import useStyles from './styles';
+import {useParams} from "react-router-dom";
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 600,
+  bgcolor: 'background.paper',
+  border: '2px solid white',
+  boxShadow: 24,
+  p: 4,
+};
 
 const DetailRestaurant = () => {
-    const classes = useStyles(); 
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
-    const itemData = [
-        {
-          img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-          title: 'Breakfast',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-          title: 'Burger',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-          title: 'Camera',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-          title: 'Coffee',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-          title: 'Hats',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-          title: 'Honey',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-          title: 'Basketball',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-          title: 'Fern',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-          title: 'Mushrooms',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-          title: 'Tomato basil',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-          title: 'Sea star',
-        },
-        {
-          img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-          title: 'Bike',
-        },
-      ];
+    const classes = useStyles(); 
+    let params = useParams();
+    let {RestaurantId} = params;
 
     return (
       <>
         <CssBaseline/>
         <main>
                 <div className={classes.background}>
-                <Container maxWidth="md">
-                        <Typography className={classes.title} align="center" variant="h3" gutterBottom>
-                            Nom du restaurant
-                        </Typography>
-                        <div className="Images">
-                        <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
-                          {itemData.map((item) => (
-                            <ImageListItem key={item.img}>
-                              <img
-                                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                                alt={item.title}
-                                loading="lazy"
-                                justify="right"
-                              />
-                            </ImageListItem>
-                          ))}
-                        </ImageList>
-                        </div>
+                <Container maxWidth="md">    
+                        <Grid container spacing={4}>
+                              <Grid item xs={8}>
+                                <Typography align="left" variant="h3" gutterBottom>
+                                  Nom du restaurant
+                                </Typography>
+                                <Typography className={classes.detailResto} variant="body1" alignItems="left" paragraph>
+                                  Et Lorem fugiat ipsum non esse nisi duis nulla dolor ea deserunt id. Occaecat et magna et anim nostrud duis consectetur officia culpa qui dolor. Do ex aliqua consequat proident labore amet. Aliquip adipisicing ut eiusmod amet quis est. Ad ullamco sint tempor commodo ut occaecat ea culpa sit voluptate. Voluptate officia elit exercitation tempor ullamco ea incididunt officia ut eu sit.
+                                </Typography>
+                                <div className="reservation">
+                                  <Button variant="contained" onClick={handleOpen} color="success">
+                                    Réserver maintenant
+                                  </Button>
+                                  <Modal
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                  >
+                                    <Box sx={style}>
+                                      <Typography id="modal-modal-title" variant="h6" component="h2">
+                                        Réserver une table
+                                      </Typography>
+                                      <Typography id="modal-modal-description" sx={{ mt: 1 }}>
+                                        Nom du restaurant
+                                      </Typography>
+                                      <form> </form>
+                                        <div></div>
+                                        <TextField 
+                                          id="outlined-multiline-flexible"
+                                          label="Nom"
+                                          multiline
+                                          maxRows={2}/>
+                                       <TextField 
+                                          id="outlined-multiline-flexible"
+                                          label="Prénom"
+                                          multiline
+                                          maxRows={2}/>
+                                        <TextField 
+                                          id="outlined-multiline-flexible"
+                                          label="Multiline"
+                                          multiline
+                                          maxRows={2}/>
+                                    </Box>
+                                  </Modal>
+                                </div>
+                              </Grid>
+                              <Grid item xs={4}>
+                                <img className={classes.imageSlide} src="https://tastet.ca/wp-content/uploads/2019/04/le-filet-restaurant-montreal1.jpg" alt="restaurant image"/>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography variant="h6"> 
+                                  CARACTÉRISTIQUES 
+                                </Typography>
+                                <Typography variant="subtitle1" paragraph> 
+                                  Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography variant="h6"> 
+                                  FOURCHETTE DE PRIX 
+                                </Typography>
+                                <Typography variant="subtitle1" paragraph> 
+                                  Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography variant="h6"> 
+                                  CUISINES 
+                                </Typography>
+                                <Typography variant="subtitle1" paragraph> 
+                                  Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography variant="h6"> 
+                                  RÉGIMES ALIMENTAIRES SPÉCIAUX 
+                                </Typography>
+                                <Typography variant="subtitle1" paragraph> 
+                                  Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}> 
+                                <Typography variant="h6"> 
+                                  REPAS 
+                                </Typography>
+                                <Typography variant="subtitle1" paragraph> 
+                                  Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
+                                </Typography>
+                              </Grid>
+                        </Grid>    
                 </Container>
             </div>
         </main>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, CssBaseline, Container, Grid } from '@mui/material';
 import useStyles from './styles';
 import Restaurants from "./components/Restaurants";
@@ -6,8 +6,25 @@ import Restaurants from "./components/Restaurants";
 const ListeRestaurants = () => {
     const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9] //test ça va devenir restaurants qui va falloir loop
     const [restaurants, setRestaurants] = useState([])
-    const classes = useStyles(); 
+    const classes = useStyles();
 
+    /*useEffect(() => {
+        async function componentDidMount() {
+          // obtenir les restaurants
+          let url = `${serveur}/restaurants`;
+          let resultatResto = await fetch(url);
+          if (resultatResto.ok) {
+            let data = await resultatResto.json();
+            setRestaurants(data)
+          } else {
+            console.log("une erreur s'est produite lors de l'appel à /restaurants");
+          }
+        }
+    
+        componentDidMount().then(() => console.log("componentDidMount terminé"));
+        console.log("ListeRestaurant.useEffect terminé");
+      }, []);*/
+    
     return (
         <>
             <CssBaseline />

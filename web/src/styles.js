@@ -58,6 +58,16 @@ const useStyles = makeStyles((theme) => ({
     cardContent: {
         flexGrow: 1,
     },
+    imageSlide: {
+        maxWidth: 'auto',
+        height: '250px' 
+    },
+    reservationCard: {
+        height: '100%',
+    },
+    inputModal: {
+        padding: '25px 50px',
+    },
 }));
 
 export default useStyles
