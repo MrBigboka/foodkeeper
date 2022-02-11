@@ -4,9 +4,10 @@ import backgroundGif from './media/foodkeep.gif'
 //import {serveur} from "./constantes"
 import useStyles from './styles';
 import { useNavigate } from "react-router-dom";
+import * as React from "react";
 
 const Home = () => {
-    const classes = useStyles(); 
+    const classes = useStyles();
     const navigate = useNavigate();
 
     const login = () => {
@@ -15,6 +16,9 @@ const Home = () => {
 
     const register = () => {
         navigate('/register');
+    }
+    const profile = () => {
+        navigate('/profile');
     }
     return (
       <>
@@ -26,7 +30,7 @@ const Home = () => {
                             FoodKeeper
                         </Typography>
                         <Typography className={classes.white} variant="h5" align="center" paragraph>
-                            Bienvenue sur FoodKeeper. Le site numéro un pour les réservations dans le milieu de la restauration !    
+                            Bienvenue sur FoodKeeper. Le site numéro un pour les réservations dans le milieu de la restauration !
                         </Typography>
                         <Stack
                             sx={{ pt: 4 }}
@@ -34,13 +38,13 @@ const Home = () => {
                             spacing={1}
                             justifyContent="center"
                         >
-                            <Button 
+                            <Button
                                 style={{
                                     borderRadius: 20,
                                     backgroundColor: "#2E3B55",
                                     padding: "10px 36px",
-                                }} 
-                                variant="contained" 
+                                }}
+                                variant="contained"
                                 onClick={register}>
                                 S'inscrire
                             </Button>
@@ -49,6 +53,7 @@ const Home = () => {
                                 color: "white",
                                 padding: "18px 36px",
                             }} variant="outlined" onClick={login}>Se connecter</Button>
+                            <Button color="inherit" onClick={profile}>Profile</Button>
                         </Stack>
                 </Container>
             </div>

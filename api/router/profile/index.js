@@ -10,7 +10,6 @@ router.get('/', async (request, response) => {
   const { id } = request.user;
   const user = await db('users').where('id', id).first();
   delete user.password;
-  console.log(user);
   // si restaurateur -> xxxx
   if (user.type) {
     const restaurant = await db('restaurants').where('usernameId', user.id).first();
@@ -19,6 +18,8 @@ router.get('/', async (request, response) => {
     body.user = user;
     body.restaurant = restaurant;
     return response.status(200).json(body);
+  } else {
+    return response.status(404).json('client');
   }
   return response.status(200).json(user);
 });
