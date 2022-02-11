@@ -33,7 +33,7 @@ router.post('/', async (request, response) => {
   console.log(user);
   const updates = [];
   const {
-    description, capacites, nbTables, nomResto,
+    description, capacites, nbTables, nomResto, ouverture, fermeture
   } = request.body;
   if (description) {
     await db('restaurants').where('usernameId', user.id).update('description', description);
@@ -43,6 +43,14 @@ router.post('/', async (request, response) => {
     if (parseInt(capacites) > 0) {
       await db('restaurants').where('usernameId', user.id).update('capacites', capacites);
       updates.push('capacites');
+    }
+  }
+  if (ouverture && fermeture) {
+    if (true) {
+
+      await db('restaurants').where('usernameId', user.id).update('ouverture', ouverture);
+      await db('restaurants').where('usernameId', user.id).update('fermeture', fermeture);
+      updates.push('ouverture et fermeture');
     }
   }
   if (nbTables) {
