@@ -7,6 +7,7 @@ import Register from './Register';
 import Footer from './components/Footer'
 import ListeRestaurants from "./ListeRestaurants";
 import DetailRestaurant from "./DetailRestaurant";
+import Profile from "./Profile";
 
 export const TokenContext = React.createContext();
 
@@ -23,6 +24,7 @@ export default function App() {
               <Route path="/" element={<Home/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/register" element={<Register/>}/>
+              <Route path="/profile" element={<Profile/>}/>
               <Route path="/liste" element={<ListeRestaurants/>} />
               <Route path="/detailresto/:RestaurantId" element={<DetailRestaurant/>}/>
           </Routes>

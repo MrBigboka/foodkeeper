@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useStyles from '../styles';
 
-import {useState, useContext} from "react";
+import {useContext} from "react";
 import {TokenContext} from "../App";
 export default function Menu() {
     const navigate = useNavigate();
@@ -24,7 +24,6 @@ export default function Menu() {
         tokenContext.token = "";
         navigate('/');
     }
-
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar style={{ background: '#2E3B55' }} position="static">

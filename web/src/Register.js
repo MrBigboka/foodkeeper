@@ -41,8 +41,7 @@ export default function SignUp() {
         setChecked(event.target.checked);
     };
     async function register() {
-        if (checked)
-            console.log(nomResto);
+        if (checked) {console.log(nomResto);}
         const response = await fetch('http://localhost:3000/auth/register', {
             method: 'POST',
             body: JSON.stringify({ password:password, username:username, type:checked, nomResto }),

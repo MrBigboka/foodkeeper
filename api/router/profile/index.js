@@ -10,7 +10,6 @@ router.get('/', async (request, response) => {
   const { id } = request.user;
   const user = await db('users').where('id', id).first();
   delete user.password;
-  console.log(user);
   // si restaurateur -> xxxx
   if (user.type) {
     const restaurant = await db('restaurants').where('usernameId', user.id).first();
@@ -19,6 +18,8 @@ router.get('/', async (request, response) => {
     body.user = user;
     body.restaurant = restaurant;
     return response.status(200).json(body);
+  } else {
+    return response.status(404).json('client');
   }
   return response.status(200).json(user);
 });
@@ -32,7 +33,7 @@ router.post('/', async (request, response) => {
   console.log(user);
   const updates = [];
   const {
-    description, capacites, nbTables, nomResto,
+    description, capacites, nbTables, nomResto, ouverture, fermeture
   } = request.body;
   if (description) {
     await db('restaurants').where('usernameId', user.id).update('description', description);
@@ -42,6 +43,14 @@ router.post('/', async (request, response) => {
     if (parseInt(capacites) > 0) {
       await db('restaurants').where('usernameId', user.id).update('capacites', capacites);
       updates.push('capacites');
+    }
+  }
+  if (ouverture && fermeture) {
+    if (true) {
+
+      await db('restaurants').where('usernameId', user.id).update('ouverture', ouverture);
+      await db('restaurants').where('usernameId', user.id).update('fermeture', fermeture);
+      updates.push('ouverture et fermeture');
     }
   }
   if (nbTables) {
