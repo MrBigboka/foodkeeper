@@ -54,6 +54,8 @@ const Profile = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
+                data.restaurant.ouverture = data.restaurant.ouverture.substring(11, 16);
+                data.restaurant.fermeture = data.restaurant.fermeture.substring(11, 16);
                 setProfile(data);
             } else {
                 console.log(response.status);

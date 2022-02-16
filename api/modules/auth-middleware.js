@@ -21,7 +21,7 @@ module.exports = async function authMiddleware(request, response, next) {
 
     return next();
   } catch (error) {
-    console.log('Une erreur s\'est produite', error);
+    console.log('Une erreur s\'est produite (erreur token)');
     return response.status(401)
       .send(`Not authorized. ${error.message}`);
   }
