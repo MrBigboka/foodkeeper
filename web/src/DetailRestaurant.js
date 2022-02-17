@@ -1,5 +1,8 @@
 import React, {useState} from "react";
-import { Typography, CssBaseline, Container, Grid, Button, Modal, Box, Stack, TextField } from '@mui/material';
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
+import ModalReservation from "./components/ModalReservation";
+import { Typography, CssBaseline, Container, Grid, Button, Modal, Box, TextField, InputAdornment} from '@mui/material';
 import useStyles from './styles';
 import {useParams} from "react-router-dom";
 
@@ -17,12 +20,23 @@ const style = {
 
 const DetailRestaurant = () => {
     const [open, setOpen] = useState(false);
+    const [nom, setNom] = useState('');
+    const [prenom, setPrenom] = useState('');
+    const [telephone, setTelephone] = useState('');
+    const [courriel, setCourriel] = useState('');
+    const [nbPersonne, setNbPersonne] = useState(0);
+    const [date, setDate] = useState(new Date());
+    const [note, setNote] = useState('');
+
+
+
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const classes = useStyles(); 
-    let params = useParams();
-    let {RestaurantId} = params;
+    const params = useParams();
+
 
     return (
       <>
@@ -42,38 +56,6 @@ const DetailRestaurant = () => {
                                   <Button variant="contained" onClick={handleOpen} color="success">
                                     Réserver maintenant
                                   </Button>
-                                  <Modal
-                                    open={open}
-                                    onClose={handleClose}
-                                    aria-labelledby="modal-modal-title"
-                                    aria-describedby="modal-modal-description"
-                                  >
-                                    <Box sx={style}>
-                                      <Typography id="modal-modal-title" variant="h6" component="h2">
-                                        Réserver une table
-                                      </Typography>
-                                      <Typography id="modal-modal-description" sx={{ mt: 1 }}>
-                                        Nom du restaurant
-                                      </Typography>
-                                      <form> </form>
-                                        <div></div>
-                                        <TextField 
-                                          id="outlined-multiline-flexible"
-                                          label="Nom"
-                                          multiline
-                                          maxRows={2}/>
-                                       <TextField 
-                                          id="outlined-multiline-flexible"
-                                          label="Prénom"
-                                          multiline
-                                          maxRows={2}/>
-                                        <TextField 
-                                          id="outlined-multiline-flexible"
-                                          label="Multiline"
-                                          multiline
-                                          maxRows={2}/>
-                                    </Box>
-                                  </Modal>
                                 </div>
                               </Grid>
                               <Grid item xs={4}>
@@ -118,6 +100,128 @@ const DetailRestaurant = () => {
                                 <Typography variant="subtitle1" paragraph> 
                                   Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
                                 </Typography>
+                                {/*<===MODAL===> */}
+                                <Modal
+                                  open={open}
+                                  onClose={handleClose}
+                                  aria-labelledby="modal-modal-title"
+                                  aria-describedby="modal-modal-description"
+                                >
+                                  <Box sx={style}>
+                                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                                      Réserver une table
+                                    </Typography>
+                                    <Typography id="modal-modal-description" style={{ marginBottom: '10px' }} sx={{ mt: 1 }}>
+                                      Nom du restaurant
+                                    </Typography>
+                                    <div>
+                                      <form>
+                                        <TextField
+                                            required
+                                            id="outlined-multiline-flexible"
+                                            style={{ marginRight: '20px'}}                                              
+                                            label="Nom"
+                                            margin="dense"
+                                            value={nom}
+                                            multiline
+                                            maxRows={2}
+                                            onChange={
+                                              e => {
+                                                setNom(e.target.value)
+                                              }
+                                            }/>
+                                        <TextField 
+                                            required
+                                            id="outlined-multiline-flexible"
+                                            value={prenom}
+                                            label="Prénom"
+                                            margin="dense"
+                                            multiline
+                                            maxRows={2}
+                                            onChange={
+                                              e => {
+                                                setPrenom(e.target.value)
+                                              }
+                                            }/>
+                                        <TextField 
+                                            required
+                                            id="outlined-multiline-flexible"
+                                            label="Courriel"
+                                            style={{ marginRight: '20px'}}  
+                                            margin="dense"
+                                            value={courriel}
+                                            multiline
+                                            maxRows={2}
+                                            onChange={
+                                              e => {
+                                                setCourriel(e.target.value)
+                                              }
+                                            }/>
+                                        <TextField 
+                                            id="outlined-multiline-flexible"
+                                            label="Numéro de téléphone (optionnel)"
+                                            style={{width: '31vh'}}
+                                            InputProps={{
+                                              startAdornment: <InputAdornment position="start">🇨🇦 +1</InputAdornment>,
+                                            }}
+                                            onChange={
+                                              e => {
+                                                setTelephone(e.target.value)
+                                              }
+                                            }
+                                            value={telephone}
+                                            margin="dense"
+                                            multiline
+                                            maxRows={2}/>
+                                        {/*<MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                          <DateTimePicker
+                                            label="Date&Time picker"
+                                            value={date}
+                                            onChange={handleChange}
+                                          />
+                                        </MuiPickersUtilsProvider>*/}
+                                        <TextField
+                                          required
+                                          id="outlined-number"
+                                          margin="dense"
+                                          value={nbPersonne}
+                                          label="Nombre de personnes"
+                                          type="number"
+                                          InputLabelProps={{
+                                            shrink: true,
+                                          }}
+                                          onChange={
+                                            e => {
+                                              setNbPersonne(e.target.value)
+                                            }
+                                          }
+                                        />
+                                            <br/>
+                                          <TextField
+                                            style={{ marginBottom: '20px'}}
+                                            margin="dense"
+                                            fullWidth
+                                            value={note}
+                                            id="outlined-multiline-static"
+                                            label="Ajouter une note (optionnel)"
+                                            multiline
+                                            rows={4}
+                                            onChange={
+                                              e => {
+                                                setNote(e.target.value)
+                                              }
+                                            }
+                                          />
+                                          <Button                                               
+                                          fullWidth 
+                                          variant="contained" 
+                                          color="success">
+                                          Confirmer la réservation
+                                          </Button>
+                                        </form>
+                                    </div>
+                                  </Box>
+                                </Modal>  
                               </Grid>
                         </Grid>    
                 </Container>

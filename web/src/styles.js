@@ -68,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
     inputModal: {
         padding: '25px 50px',
     },
+    input: {
+        marginLeft: '40px',
+    }
 }));
 
 export default useStyles
