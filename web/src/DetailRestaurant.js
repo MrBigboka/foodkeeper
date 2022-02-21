@@ -79,7 +79,7 @@ const DetailRestaurant = () => {
                                   Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
                                 </Typography>
                                 {/*<===MODAL===> */}
-                                <ModalReservation openModal={openModal} setOpen={setOpenModal}/>                         
+                                <ModalReservation openModal={openModal} setOpenModal={setOpenModal}/>                         
                               </Grid>
                         </Grid>    
                 </Container>
