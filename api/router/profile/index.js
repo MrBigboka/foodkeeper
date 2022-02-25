@@ -1,9 +1,33 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const db = require('../../modules/db');
-
+const {promises: fs} = require("fs");
+const multer = require('multer');
+const path = require("path");
 const router = express.Router();
 
+router.post('/upload', async (request, response) => {
+  const upload = multer({dest:'./public/uploads/'}).single('image');
+  upload(request, response, async (err) => {
+    if (err) {
+      response.status(400).send("Something went wrong!");
+    }
+    response.send(request.file);
+    fs.rename(`./public/uploads/${request.file.filename}`, `./public/uploads/${request.file.filename}.png`, function(err) {
+      if ( err ) console.log('ERROR: ' + err);
+    });
+    await db('restaurants').where('usernameId', request.user.id).update('photo', `${request.file.filename}.png`);
+    // return response.status(200).json('lol');
+  });
+});
+
+router.get('/upload', async (request, response) => {
+  const path = require('path');
+  console.log(path.resolve('public/index.html'));
+  // console.log(__dirname, '../public', 'index1.html');
+  const photo = await db('restaurants').select('photo').where('usernameId', request.user.id).first();
+  return response.sendFile(path.resolve(`public/uploads/${photo.photo}`));
+});
 router.get('/', async (request, response) => {
   console.log('L\'identité reliée au bearer token est:', JSON.stringify(request.user, null, 4));
   // console.log(request.user.UserId);
