@@ -54,6 +54,42 @@ const Profile = () => {
             console.error(response.statusText);
         }
     }
+    async function postImage() {
+        var formData = new FormData();
+
+        // HTML file input, chosen by user
+        formData.append("image", document.getElementById('input').files[0]);
+        console.log(formData);
+        // JavaScript file-like object
+        // var content = '<a id="a"><b id="b">hey!</b></a>'; // the body of the new file...
+        // var blob = new Blob([content], { type: "text/xml"});
+        //
+        // formData.append("webmasterfile", blob);
+        //
+        // var request = new XMLHttpRequest();
+        // request.open("POST", "http://foo.com/submitform.php");
+        // request.send(formData);
+        //
+        // console.log();
+        const bearerToken = `bearer ${tokenContext.token}`;
+        const response = await fetch('http://localhost:3000/profile/upload', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                // 'Content-Type': 'application/json; charset=utf-8',
+                Authorization: bearerToken,
+            },
+        });
+        if (response.ok) {
+            const data = await response.json();
+            // setSucces(data);
+            console.log(data);
+            alert('Succes');
+            navigate("/");
+        } else {
+            console.error(response.statusText);
+        }
+    }
     useEffect(() => {
         async function componentDidMount() {
             console.log('token', tokenContext.token);
@@ -101,6 +137,7 @@ const Profile = () => {
                         <Typography className={classes.white} variant="h6" color='black' align="center" paragraph>
                             Nom d'utilisateur: {profile.user.username} <br/>
                         </Typography>
+                        <img style={{marginLeft: "auto", marginRight: "auto", display: "block"}} src={'http://localhost:3000/images/'+profile.restaurant.photo} alt={'Image de votre restaurant ici'}/> <br/>
                         <Typography className={classes.white} variant="h7" color='black' align="center" paragraph>
                             Nom du restaurant: {profile.restaurant.nomResto} <br/>
                             Capacité: {profile.restaurant.capacites} <br/>
@@ -111,6 +148,8 @@ const Profile = () => {
                             Modifier les informations du restaurant
                         </Typography>
                         <div align="center">
+                            <input type="file" id="input"/> <br/><br/>
+                            <Button variant="contained" onClick={postImage}>Changer l'image</Button><br/>
                             { succes !== null &&
                                 <>
                                     <Alert severity="success">{succes}</Alert><br/>

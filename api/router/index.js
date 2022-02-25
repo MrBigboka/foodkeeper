@@ -9,10 +9,11 @@ const profile = require('./profile');
 const comment = require('./comment');
 const ratings = require('./ratings');
 const rate = require('./rate');
-
+const images = require('./images');
 const router = Router();
 
 router.use('/restaurants', restaurants);
+router.use('/images', images);
 // router.use('/users', users);
 // router.use('/comments', comments);
 // router.use('/ratings', ratings);
