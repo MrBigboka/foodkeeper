@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Typography, CssBaseline, Container, Grid } from '@mui/material';
+import serveur from './constantes';
 import useStyles from './styles';
 import Restaurants from "./components/Restaurants";
 
@@ -9,7 +10,7 @@ const ListeRestaurants = () => {
 
     const classes = useStyles();
 
-    /*useEffect(() => {
+    useEffect(() => {
         async function componentDidMount() {
           // obtenir les restaurants
           let url = `${serveur}/restaurants`;
@@ -21,10 +22,9 @@ const ListeRestaurants = () => {
             console.log("une erreur s'est produite lors de l'appel à /restaurants");
           }
         }
-    
         componentDidMount().then(() => console.log("componentDidMount terminé"));
         console.log("ListeRestaurant.useEffect terminé");
-      }, []);*/
+      }, []);
     
     return (
         <>
@@ -39,8 +39,8 @@ const ListeRestaurants = () => {
                         </div>
                         <div>
                         <Grid container spacing={4}>
-                            {cards.map((resto) => (
-                                <Restaurants resto={resto} key={resto}/>  
+                            {restaurants.map((resto) => (
+                                <Restaurants resto={resto} key={resto.id}/>  
                             ))} 
                         </Grid>
                         </div>

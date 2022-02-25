@@ -1,19 +1,36 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useEffect} from "react";
+import serveur from './constantes';
 //import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 //import DateFnsUtils from '@date-io/date-fns';
 import ModalReservation from "./components/ModalReservation";
-import { Typography, CssBaseline, Container, Grid, Button, Modal, Box, TextField, InputAdornment} from '@mui/material';
+import { Typography, CssBaseline, Container, Grid, Button,} from '@mui/material';
 import useStyles from './styles';
 import {useParams} from "react-router-dom";
 
 const DetailRestaurant = () => {
     const [openModal, setOpenModal] = useState(false);
+    const [restaurant, setRestaurant] = useState();
 
     const handleOpen = () => setOpenModal(true);
-    const handleClose = () => setOpenModal(false);
 
     const classes = useStyles(); 
     const params = useParams();
+
+    useEffect(() => {
+      async function componentDidMount() {
+        // obtenir les restaurants
+        let url = `${serveur}/restaurants/${params}`;
+        let resultatResto = await fetch(url);
+        if (resultatResto.ok) {
+          let data = await resultatResto.json();
+          setRestaurant(data)
+        } else {
+          console.log("une erreur s'est produite lors de l'appel à /restaurants");
+        }
+      }
+      componentDidMount().then(() => console.log("componentDidMount terminé"));
+      console.log("ListeRestaurant.useEffect terminé");
+    }, []);
 
 
     return (

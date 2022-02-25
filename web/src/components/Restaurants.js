@@ -16,10 +16,10 @@ function Restaurants(props) {
                 <CardMedia className={classes.cardMedia} image={props.resto.image} title={props.resto.title} />
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5">
-                        Nom du restaurant
+                        {props.resto.nomResto}
                     </Typography>
                     <Typography>
-                        Ce restaurant est un restaurant situé sur la Rive Sud. Le plat sont sublime et délicieux
+                        {props.resto.description}
                     </Typography>
                     <CardActions>
                     <Button onClick={handleOpen} 
@@ -29,7 +29,7 @@ function Restaurants(props) {
                                 Réserver
                     </Button>
                     <ModalReservation openModal={openModal} setOpenModal={setOpenModal} />                         
-                    <Link className={classes.styleRemover} to={`/detailresto/${props.resto}`}>
+                    <Link className={classes.styleRemover} to={`/detailresto/${props.resto.id}`}>
                         <Button size="small" color="primary">
                             Voir plus d'information.. 
                         </Button>
