@@ -2,6 +2,9 @@ import React, { useState, useRef } from "react";
 import { Typography, ClickAwayListener, Button, Modal, Box, TextField, InputAdornment } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import DateTimePicker from '@mui/lab/DateTimePicker';
 import useStyles from '../styles';
 
 
@@ -12,7 +15,7 @@ const ModalReservation = (props) => {
   const [prenom, setPrenom] = useState('');
   const [telephone, setTelephone] = useState('');
   const [courriel, setCourriel] = useState('');
-  const [nbPersonne, setNbPersonne] = useState(0);
+  const [nbPersonnes, setNbPersonnes] = useState(0);
   const [date, setDate] = useState(new Date());
   const [note, setNote] = useState('');
   
@@ -52,19 +55,19 @@ const ModalReservation = (props) => {
           <div>
             <form>
               <TextField
-                  required
-                  id="outlined-multiline-flexible"
-                  style={{ marginRight: '20px'}}                                              
-                  label="Nom"
-                  margin="dense"
-                  value={nom}
-                  multiline
-                  maxRows={2}
-                  onChange={
-                    e => {
-                      setNom(e.target.value)
-                    }
-                  }/>
+                required
+                id="outlined-multiline-flexible"
+                style={{ marginRight: '20px'}}                                              
+                label="Nom"
+                margin="dense"
+                value={nom}
+                multiline
+                maxRows={2}
+                onChange={
+                  e => {
+                    setNom(e.target.value)
+                  }
+                }/>
               <TextField 
                   required
                   id="outlined-multiline-flexible"
@@ -78,24 +81,27 @@ const ModalReservation = (props) => {
                       setPrenom(e.target.value)
                     }
                   }/>
-              <TextField 
+                <TextField
                   required
-                  id="outlined-multiline-flexible"
-                  label="Courriel"
-                  style={{ marginRight: '20px'}}  
+                  id="outlined-number"
                   margin="dense"
-                  value={courriel}
-                  multiline
-                  maxRows={2}
+                  style={{ marginRight: '20px', marginBottom: '10px' }}                                              
+                  value={nbPersonnes}
+                  label="Nombre de personnes"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   onChange={
                     e => {
-                      setCourriel(e.target.value)
+                      setNbPersonnes(e.target.value)
                     }
-                  }/>
-              <TextField 
+                  }
+                />
+                <TextField
                   id="outlined-multiline-flexible"
                   label="Numéro de téléphone (optionnel)"
-                  style={{width: '31vh'}}
+                  style={{ width: '31vh' }}
                   InputProps={{
                     startAdornment: <InputAdornment position="start">🇨🇦 +1</InputAdornment>,
                   }}
@@ -108,30 +114,23 @@ const ModalReservation = (props) => {
                   margin="dense"
                   multiline
                   maxRows={2}/>
-              {/*<MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <DateTimePicker
-                  label="Date&Time picker"
-                  value={date}
-                  onChange={handleChange}
-                /> 
-                </MuiPickersUtilsProvider>}*/}
-              <TextField
-                required
-                id="outlined-number"
-                margin="dense"
-                value={nbPersonne}
-                label="Nombre de personnes"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={
-                  e => {
-                    setNbPersonne(e.target.value)
-                  }
+                {
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DateTimePicker
+                      required
+                      label="Date et heure"
+                      value={date}
+                      multiline
+                      onChange={
+                        e => {
+                          setDate(e.target.value)
+                        }
+                      }
+                      renderInput={(params) => <TextField {...params} />} 
+                    />
+                  </LocalizationProvider>
                 }
-              />
-                  <br/>
+                <br/>
                 <TextField
                   style={{ marginBottom: '20px'}}
                   margin="dense"
@@ -151,7 +150,7 @@ const ModalReservation = (props) => {
                 fullWidth 
                 variant="contained" 
                 color="success">
-                Confirmer la réservation
+                  Confirmer la réservation
                 </Button>
               </form>
           </div>

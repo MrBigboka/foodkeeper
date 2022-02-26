@@ -8,18 +8,20 @@ import useStyles from './styles';
 import {useParams} from "react-router-dom";
 
 const DetailRestaurant = () => {
+    const params = useParams();
+    const classes = useStyles(); 
+    const { RestaurantId } = params;
     const [openModal, setOpenModal] = useState(false);
     const [restaurant, setRestaurant] = useState();
 
     const handleOpen = () => setOpenModal(true);
 
-    const classes = useStyles(); 
-    const params = useParams();
 
     useEffect(() => {
       async function componentDidMount() {
         // obtenir les restaurants
-        let url = `${serveur}/restaurants/${params}`;
+        let url = `${serveur}/restaurants/${RestaurantId}`;
+        console.log(url)
         let resultatResto = await fetch(url);
         if (resultatResto.ok) {
           let data = await resultatResto.json();
@@ -30,77 +32,102 @@ const DetailRestaurant = () => {
       }
       componentDidMount().then(() => console.log("componentDidMount terminé"));
       console.log("ListeRestaurant.useEffect terminé");
-    }, []);
+    }, [RestaurantId]);
 
 
     return (
       <>
         <CssBaseline/>
-        <main>
-                <div className={classes.background}>
-                <Container maxWidth="md">    
-                        <Grid container spacing={4}>
-                              <Grid item xs={8}>
-                                <Typography align="left" variant="h3" gutterBottom>
-                                  Nom du restaurant
-                                </Typography>
-                                <Typography className={classes.detailResto} variant="body1" alignItems="left" paragraph>
-                                  Et Lorem fugiat ipsum non esse nisi duis nulla dolor ea deserunt id. Occaecat et magna et anim nostrud duis consectetur officia culpa qui dolor. Do ex aliqua consequat proident labore amet. Aliquip adipisicing ut eiusmod amet quis est. Ad ullamco sint tempor commodo ut occaecat ea culpa sit voluptate. Voluptate officia elit exercitation tempor ullamco ea incididunt officia ut eu sit.
-                                </Typography>
-                                <div className="reservation">
-                                  <Button variant="contained" onClick={handleOpen} color="success">
-                                    Réserver maintenant
-                                  </Button>
-                                </div>
-                              </Grid>
-                              <Grid item xs={4}>
-                                <img className={classes.imageSlide} src="https://tastet.ca/wp-content/uploads/2019/04/le-filet-restaurant-montreal1.jpg" alt="restaurant image"/>
-                              </Grid>
-                              <Grid item xs={12}>
-                                <Typography variant="h6"> 
-                                  CARACTÉRISTIQUES 
-                                </Typography>
-                                <Typography variant="subtitle1" paragraph> 
-                                  Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12}>
-                                <Typography variant="h6"> 
-                                  FOURCHETTE DE PRIX 
-                                </Typography>
-                                <Typography variant="subtitle1" paragraph> 
-                                  Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12}>
-                                <Typography variant="h6"> 
-                                  CUISINES 
-                                </Typography>
-                                <Typography variant="subtitle1" paragraph> 
-                                  Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12}>
-                                <Typography variant="h6"> 
-                                  RÉGIMES ALIMENTAIRES SPÉCIAUX 
-                                </Typography>
-                                <Typography variant="subtitle1" paragraph> 
-                                  Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12}> 
-                                <Typography variant="h6"> 
-                                  REPAS 
-                                </Typography>
-                                <Typography variant="subtitle1" paragraph> 
-                                  Fugiat ea adipisicing ad elit qui laborum Lorem ipsum. Laboris tempor mollit sit labore velit ea anim exercitation laborum velit ullamco. Elit cupidatat sint non ullamco duis amet id. 
-                                </Typography>
-                                {/*<===MODAL===> */}
-                                <ModalReservation openModal={openModal} setOpenModal={setOpenModal}/>                         
-                              </Grid>
-                        </Grid>    
-                </Container>
+        <main>  
+            { restaurant !== undefined &&
+            <div className={classes.background}>
+              <Container maxWidth="md">
+                <Grid container spacing={4}>
+                  <Grid item xs={8}>
+                    <Typography align="left" variant="h3" gutterBottom>
+                      {restaurant.nomResto}
+                    </Typography>
+                    <Typography className={classes.detailResto} variant="body1" alignItems="left" paragraph>
+                      {restaurant.description}
+                    </Typography>
+                    <div className="reservation">
+                      <Button variant="contained" onClick={handleOpen} color="success">
+                        Réserver maintenant
+                      </Button>
+                    </div>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <img className={classes.imageSlide} src="https://tastet.ca/wp-content/uploads/2019/04/le-filet-restaurant-montreal1.jpg" alt="restaurant" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">
+                      CARACTÉRISTIQUES
+                    </Typography>
+                    {restaurant.caracteristique !== null ?
+                      <Typography variant="subtitle1" paragraph>
+                        {restaurant.caracteristique}
+                      </Typography> :
+                      <Typography variant="subtitle1" paragraph>
+                        Aucune information à ce sujet.
+                      </Typography>
+                    }
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">
+                      FOURCHETTE DE PRIX
+                    </Typography>
+                    {restaurant.fourchette !== null ?
+                      <Typography variant="subtitle1" paragraph>
+                        {restaurant.fourchette}
+                      </Typography> :
+                      <Typography variant="subtitle1" paragraph>
+                        Aucune information à ce sujet.
+                      </Typography>
+                    }
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">
+                      CUISINES
+                    </Typography>
+                    {restaurant.cuisines !== null ?
+                      <Typography variant="subtitle1" paragraph>
+                        {restaurant.cuisines}
+                      </Typography> :
+                      <Typography variant="subtitle1" paragraph>
+                        Aucune information à ce sujet.
+                      </Typography>
+                    }
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">
+                      RÉGIME SPÉCIFIQUE
+                    </Typography>
+                    {restaurant.regime !== null ?
+                      <Typography variant="subtitle1" paragraph>
+                        {restaurant.regime} </Typography> :
+                      <Typography variant="subtitle1" paragraph>
+                        Aucune information à ce sujet.
+                      </Typography>
+                    }
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">
+                      REPAS
+                    </Typography>
+                    {restaurant.repas !== null ?
+                      <Typography variant="subtitle1" paragraph>
+                        {restaurant.repas} </Typography> :
+                      <Typography variant="subtitle1" paragraph>
+                        Aucune information à ce sujet.
+                      </Typography>
+                    }
+                    {/*<===MODAL===> */}
+                    <ModalReservation openModal={openModal} setOpenModal={setOpenModal} />
+                  </Grid>
+                </Grid>
+              </Container>
             </div>
+            }
         </main>
       </>
     );

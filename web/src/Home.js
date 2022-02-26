@@ -53,7 +53,6 @@ const Home = () => {
                                 color: "white",
                                 padding: "18px 36px",
                             }} variant="outlined" onClick={login}>Se connecter</Button>
-                            <Button color="inherit" onClick={profile}>Profile</Button>
                         </Stack>
                 </Container>
             </div>

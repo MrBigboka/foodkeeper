@@ -5,7 +5,6 @@ import useStyles from './styles';
 import Restaurants from "./components/Restaurants";
 
 const ListeRestaurants = () => {
-    const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9] //test ça va devenir restaurants qui va falloir loop
     const [restaurants, setRestaurants] = useState([]) 
 
     const classes = useStyles();

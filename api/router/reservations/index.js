@@ -4,29 +4,89 @@ const db = require('../../modules/db');
 const router = express.Router();
 
 router.get('/', async (request, response) => {
-  const restaurants = await db('restaurants');
-  return response.status(200).json(restaurants);
+  const reservation = await db('reservation');
+  return response.status(200).json(reservation);
 });
 
 router.get('/:reservationId', async (request, response) => {
-  const { restaurantId } = request.params;
-  const restaurants = await db('restaurants').where('id', restaurantId).first();
-  return response.status(200).json(restaurants);
+  const { reservationId } = request.params;
+  const reservation = await db('reservation').where('id', reservationId).first();
+  return response.status(200).json(reservation);
 });
 
 router.post('/:reservationId', async (request, response) => {
-    const { firstName, lastName, email } = request.body;
+    const {
+      clientId,
+      restaurantId, 
+      nom, 
+      prenom, 
+      telephone,
+      nbPersonne,
+      note,
+      date,
+       } = request.body;
   
-    const oneStudent = await db('students')
-      .where('email', email).first();
-    if (oneStudent) {
-      return response.status(400).json({ message: 'Un étudiant possède le même courriel' });
-    }
+    const reservation = await db('reservation')
+      .insert({ 
+        clientId,
+        restaurantId,
+        nom,
+        prenom,
+        telephone,
+        nbPersonne,
+        note,
+        date
+      },['id']);
   
-    const studentId = await db('students')
-      .insert({ first_name: firstName, last_name: lastName, email }, ['id']);
-  
-    return response.status(201).json({ studentId: studentId[0] });
-  });
+  return response.status(201).json({ reservationId: reservation[0] });
+});
+
+router.put('/:reservationId', async (request, response) => {
+  const { reservationId } = request.params;
+  const {
+    nom,
+    prenom,
+    telephone,
+    nbPersonne,
+    note,
+    date,
+  } = request.body;
+
+  const reservationExist = await db('reservation')
+    .where('id', reservationExist)
+    .first();
+  if (!reservationExist) {
+    return response.status(400).json({ message: 'Cette réservation est introuvable' });
+  }
+
+  await db('reservation')
+    .update({
+      nom,
+      prenom,
+      telephone,
+      nbPersonne,
+      note,
+      date, })
+    .where('id', reservationId);
+
+  return response.status(200).json({ modified: true });
+});
+
+router.delete('/:reservationId', async (request, response) => {
+  const { reservationId } = request.params;
+
+  const reservationExist = await db('reservation')
+    .where('reservationId', reservationId)
+    .first();
+  if (!reservationExist) {
+    return response.status(400).json({ message: 'Cette réservation est introuvable' });
+  }
+
+  await db('reservation')
+    .where('id', reservationId)
+    .del();
+
+  return response.status(200).json({ deleted: true });
+});
 
 module.exports = router;
