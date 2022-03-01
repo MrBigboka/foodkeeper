@@ -3,8 +3,17 @@ const db = require('../../modules/db');
 
 const router = express.Router();
 
-router.get('/', async (request, response) => {
-  const reservation = await db('reservation');
+router.get('/client/:clientId', async (request, response) => {
+  const { clientId } = request.params;
+  const reservation = await db('reservation')
+    .where('clientId', clientId);
+  return response.status(200).json(reservation);
+});
+
+router.get('/restaurant/:restaurantId', async (request, response) => {
+  const { restaurantId } = request.params;
+  const reservation = await db('reservation')
+    .where('restaurantId', restaurantId);
   return response.status(200).json(reservation);
 });
 

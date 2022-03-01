@@ -4,7 +4,8 @@ import Home from './Home';
 import Login from './Login';
 import Menu from './components/Menu'
 import Register from './Register';
-import Footer from './components/Footer'
+import Footer from './components/Footer';
+import ProfilClient from './ProfilClient';
 import ListeRestaurants from "./ListeRestaurants";
 import DetailRestaurant from "./DetailRestaurant";
 import Profile from "./Profile";
@@ -26,6 +27,7 @@ export default function App() {
               <Route path="/register" element={<Register/>}/>
               <Route path="/profile" element={<Profile/>}/>
               <Route path="/liste" element={<ListeRestaurants/>} />
+              <Route path="/profilClient" element={<ProfilClient/>} />
               <Route path="/detailresto/:RestaurantId" element={<DetailRestaurant/>}/>
           </Routes>
           <Footer/>

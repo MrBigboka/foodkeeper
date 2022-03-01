@@ -39,6 +39,12 @@ const useStyles = makeStyles((theme) => ({
     secondaryColor: {
         color: '',
     },
+    header: {
+        margin: '50px 0px',
+    },
+    reservationContent: {
+        marginBottom: '22pc',
+    },
     styleRemover: {
         paddingLeft: 13, 
         textDecoration: 'none',
