@@ -20,7 +20,7 @@ const ModalReservation = (props) => {
   const [telephone, setTelephone] = useState('');
   const [courriel, setCourriel] = useState('');
   const [nbPersonnes, setNbPersonnes] = useState(0);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = React.useState(new Date());
   const [note, setNote] = useState('');
 
   const handleClose = () => props.setOpenModal(false);
@@ -51,7 +51,7 @@ const ModalReservation = (props) => {
     const response = await fetch('http://localhost:3000/reservations', {
       method: 'POST',
       body: JSON.stringify({
-          "restaurantId": props.resto,
+          "restaurantId": props.resto.id,
           "nom": nom,
           "prenom": prenom,
           "telephone": telephone,

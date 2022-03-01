@@ -16,7 +16,7 @@ router.get('/:reservationId', async (request, response) => {
 
 router.post('/', async (request, response) => {
   try {
-    const {
+    let {
       restaurantId,
       nom,
       prenom,
@@ -25,7 +25,6 @@ router.post('/', async (request, response) => {
       note,
       date,
     } = request.body;
-    console.log(nbPersonnes);
     let parseNbPer = parseInt(nbPersonnes) || 0;
     if (!date) {
       return response.status(404).json({ error: 'il faut une date'});
