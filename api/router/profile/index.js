@@ -43,7 +43,7 @@ router.get('/', async (request, response) => {
     body.restaurant = restaurant;
     return response.status(200).json(body);
   } else {
-    return response.status(404).json('client');
+    return response.status(404).json(request.user);
   }
   return response.status(200).json(user);
 });
