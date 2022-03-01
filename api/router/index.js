@@ -9,7 +9,7 @@ const router = Router();
 
 router.use('/auth', auth);
 router.use('/restaurants', restaurants);
-router.use('/reservation', authMiddleware, reservation);
+router.use('/reservations', authMiddleware, reservation);
 router.use('/profile', authMiddleware, profile);
 router.use('/images', images);
 

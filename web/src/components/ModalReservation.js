@@ -1,4 +1,4 @@
-import React, {useState, useRef, useContext} from "react";
+import React, {useState, useRef, useContext, useEffect} from "react";
 import { Typography, ClickAwayListener, Button, Modal, Box, TextField, InputAdornment } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
@@ -14,7 +14,7 @@ const ModalReservation = (props) => {
   const navigate = useNavigate();
 
   const modalRef = useRef();
-
+  const [nomResto, setNomResto] = useState('Nom de resto');
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [telephone, setTelephone] = useState('');
@@ -22,12 +22,16 @@ const ModalReservation = (props) => {
   const [nbPersonnes, setNbPersonnes] = useState(0);
   const [date, setDate] = useState(new Date());
   const [note, setNote] = useState('');
-  
+
   const handleClose = () => props.setOpenModal(false);
 
   const handleChange = (newValue) => {
     setDate(newValue);
   };
+  async function componentDidMount() {
+    console.log('yo', props.resto);
+    setNomResto(props.resto.nomResto);
+  }
   async function reserver() {
     if (tokenContext.token === '') {
       return alert("Vous n'etes pas connecter.");
@@ -35,10 +39,28 @@ const ModalReservation = (props) => {
     console.log(tokenContext.token);
     console.log(date.toString());
     const bearerToken = `bearer ${tokenContext.token}`;
-    const response = await fetch('http://localhost:3000/profile', {
+    console.log({
+      "restaurantId": props.resto,
+      "nom": nom,
+      "prenom": prenom,
+      "telephone": telephone,
+      "nbPersonnes": nbPersonnes,
+      "note": note,
+      "date": date
+    });
+    const response = await fetch('http://localhost:3000/reservations', {
       method: 'POST',
-      // body: JSON.stringify({ nomResto, nbTables, capacites, description, ouverture, fermeture}),
-      headers: { 'Content-Type': 'application/json; charset=utf-8',
+      body: JSON.stringify({
+          "restaurantId": props.resto,
+          "nom": nom,
+          "prenom": prenom,
+          "telephone": telephone,
+          "nbPersonnes": nbPersonnes,
+          "note": note,
+          "date": date
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
         Authorization: bearerToken,
       },
     });
@@ -49,6 +71,7 @@ const ModalReservation = (props) => {
       console.error(response.statusText);
     }
   }
+
   const style = {
     position: 'absolute',
     top: '50%',
@@ -60,7 +83,10 @@ const ModalReservation = (props) => {
     boxShadow: 24,
     p: 4,
   };
-
+  useEffect(() => {
+    console.log("useEffect called a modal", props.restoId);
+    componentDidMount();
+  }, ['tokenContext.token'])
   return (
     <>
     {props.openModal ?
@@ -78,7 +104,7 @@ const ModalReservation = (props) => {
             Réserver une table
           </Typography>
           <Typography id="modal-modal-description" style={{ marginBottom: '10px' }} sx={{ mt: 1 }}>
-            Nom du restaurant
+            {nomResto}
           </Typography>
           <div>
             <form>
@@ -189,5 +215,4 @@ const ModalReservation = (props) => {
       
   )
 }
-
 export default ModalReservation;
