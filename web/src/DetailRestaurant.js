@@ -122,7 +122,7 @@ const DetailRestaurant = () => {
                       </Typography>
                     }
                     {/*<===MODAL===> */}
-                    <ModalReservation openModal={openModal} setOpenModal={setOpenModal} />
+                    <ModalReservation restoId={RestaurantId} nomResto={restaurant.nomResto} openModal={openModal} setOpenModal={setOpenModal} />
                   </Grid>
                 </Grid>
               </Container>

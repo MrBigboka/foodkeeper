@@ -1,24 +1,20 @@
-import React, {useState, useRef, useContext} from "react";
-import { Typography, ClickAwayListener, Button, Modal, Box, TextField, InputAdornment } from '@mui/material';
+import React, { useState, useContext } from "react";
+import serveur from '../constantes';
+import {TokenContext} from "../App";
+import { Typography, Button, Modal, Box, TextField, InputAdornment } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DateTimePicker from '@mui/lab/DateTimePicker';
-import useStyles from '../styles';
-import {TokenContext} from "../App";
-import { useNavigate } from "react-router-dom";
+
 
 const ModalReservation = (props) => {
   const tokenContext = useContext(TokenContext);
-  const navigate = useNavigate();
-
-  const modalRef = useRef();
 
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [telephone, setTelephone] = useState('');
-  const [courriel, setCourriel] = useState('');
   const [nbPersonnes, setNbPersonnes] = useState(0);
   const [date, setDate] = useState(new Date());
   const [note, setNote] = useState('');
@@ -28,27 +24,31 @@ const ModalReservation = (props) => {
   const handleChange = (newValue) => {
     setDate(newValue);
   };
-  async function reserver() {
-    if (tokenContext.token === '') {
-      return alert("Vous n'etes pas connecter.");
-    }
-    console.log(tokenContext.token);
-    console.log(date.toString());
+
+  async function postReservation() {
     const bearerToken = `bearer ${tokenContext.token}`;
-    const response = await fetch('http://localhost:3000/profile', {
-      method: 'POST',
-      // body: JSON.stringify({ nomResto, nbTables, capacites, description, ouverture, fermeture}),
-      headers: { 'Content-Type': 'application/json; charset=utf-8',
-        Authorization: bearerToken,
-      },
+    const response = await fetch(`${serveur}/reservation`, {
+        method: 'POST',
+        body: JSON.stringify({ 
+          restaurantId: props.restoId, 
+          nom, 
+          prenom,
+          telephone,
+          nbPersonnes,
+          note,
+          date,}),
+        headers: {
+            Authorization: bearerToken,
+        },
     });
     if (response.ok) {
-      const data = await response.json();
-      console.log(data);
+        const data = await response.json();
+        console.log(`Réservation confirmer: ${data[0]}`)
     } else {
-      console.error(response.statusText);
+        console.log(response.status);
     }
   }
+
   const style = {
     position: 'absolute',
     top: '50%',
@@ -75,10 +75,10 @@ const ModalReservation = (props) => {
               <CloseIcon onClick={handleClose}/>
             </IconButton>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Réserver une table
+            Réserver une table chez {props.nomResto}
           </Typography>
           <Typography id="modal-modal-description" style={{ marginBottom: '10px' }} sx={{ mt: 1 }}>
-            Nom du restaurant
+            Veuiller remplir les champs ci-dessous.
           </Typography>
           <div>
             <form>
@@ -149,12 +149,7 @@ const ModalReservation = (props) => {
                       label="Date et heure"
                       value={date}
                       multiline
-                      onChange={
-                        // e => {
-                        //   setDate(e.target.value)
-                        // }
-                        handleChange
-                      }
+                      onChange={handleChange}
                       renderInput={(params) => <TextField {...params} />} 
                     />
                   </LocalizationProvider>
@@ -176,9 +171,10 @@ const ModalReservation = (props) => {
                   }
                 />
                 <Button                                               
-                fullWidth 
-                variant="contained" 
-                color="success" onClick={reserver}>
+                  fullWidth 
+                  variant="contained" 
+                  onClick={postReservation}
+                  color="success">
                   Confirmer la réservation
                 </Button>
               </form>
@@ -186,7 +182,6 @@ const ModalReservation = (props) => {
         </Box>
       </Modal>
     : null} </>
-      
   )
 }
 

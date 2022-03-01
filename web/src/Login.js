@@ -37,7 +37,7 @@ export default function Login() {
             const data = await response.json();
             context.setToken(data.token);
             console.log(data);
-            navigate("/");
+            navigate("/liste");
         } else {
             console.error(response.statusText);
             alert('Mauvais login!');

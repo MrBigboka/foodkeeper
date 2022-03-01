@@ -31,7 +31,7 @@ function Restaurants(props) {
                             variant="contained">
                                 Réserver
                     </Button>
-                    <ModalReservation openModal={openModal} setOpenModal={setOpenModal} />                         
+                    <ModalReservation restoId={props.resto.id} nomResto={props.resto.nomResto} openModal={openModal} setOpenModal={setOpenModal} />                         
                     <Link className={classes.styleRemover} to={`/detailresto/${props.resto.id}`}>
                         <Button size="small" color="primary">
                             Voir plus d'information.. 

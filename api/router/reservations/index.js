@@ -14,7 +14,7 @@ router.get('/:reservationId', async (request, response) => {
   return response.status(200).json(reservation);
 });
 
-router.post('/:reservationId', async (request, response) => {
+router.post('/', async (request, response) => {
   try {
     const {
       restaurantId,
