@@ -71,7 +71,7 @@ const ModalReservation = (props) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-            <IconButton aria-label="delete">
+            <IconButton aria-label="delete" style={{float: 'right'}}>
               <CloseIcon onClick={handleClose}/>
             </IconButton>
           <Typography id="modal-modal-title" variant="h6" component="h2">
