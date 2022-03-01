@@ -15,30 +15,34 @@ router.get('/:reservationId', async (request, response) => {
 });
 
 router.post('/:reservationId', async (request, response) => {
+  try {
     const {
-      clientId,
-      restaurantId, 
-      nom, 
-      prenom, 
+      restaurantId,
+      nom,
+      prenom,
       telephone,
-      nbPersonne,
+      nbPersonnes,
       note,
       date,
-       } = request.body;
-  
+    } = request.body;
+
     const reservation = await db('reservation')
-      .insert({ 
-        clientId,
+      .insert({
+        clientId: request.user.id,
         restaurantId,
         nom,
         prenom,
         telephone,
-        nbPersonne,
+        nbPersonnes,
         note,
         date
       },['id']);
-  
-  return response.status(201).json({ reservationId: reservation[0] });
+
+    return response.status(201).json({ reservationId: reservation[0] });
+  } catch (e) {
+    return response.status(401).json('Erreur dans la requete');
+  }
+
 });
 
 router.put('/:reservationId', async (request, response) => {

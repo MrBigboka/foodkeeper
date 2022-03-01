@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef, useContext} from "react";
 import { Typography, ClickAwayListener, Button, Modal, Box, TextField, InputAdornment } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
@@ -6,9 +6,13 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import useStyles from '../styles';
-
+import {TokenContext} from "../App";
+import { useNavigate } from "react-router-dom";
 
 const ModalReservation = (props) => {
+  const tokenContext = useContext(TokenContext);
+  const navigate = useNavigate();
+
   const modalRef = useRef();
 
   const [nom, setNom] = useState('');
@@ -21,6 +25,30 @@ const ModalReservation = (props) => {
   
   const handleClose = () => props.setOpenModal(false);
 
+  const handleChange = (newValue) => {
+    setDate(newValue);
+  };
+  async function reserver() {
+    if (tokenContext.token === '') {
+      return alert("Vous n'etes pas connecter.");
+    }
+    console.log(tokenContext.token);
+    console.log(date.toString());
+    const bearerToken = `bearer ${tokenContext.token}`;
+    const response = await fetch('http://localhost:3000/profile', {
+      method: 'POST',
+      // body: JSON.stringify({ nomResto, nbTables, capacites, description, ouverture, fermeture}),
+      headers: { 'Content-Type': 'application/json; charset=utf-8',
+        Authorization: bearerToken,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      console.error(response.statusText);
+    }
+  }
   const style = {
     position: 'absolute',
     top: '50%',
@@ -122,9 +150,10 @@ const ModalReservation = (props) => {
                       value={date}
                       multiline
                       onChange={
-                        e => {
-                          setDate(e.target.value)
-                        }
+                        // e => {
+                        //   setDate(e.target.value)
+                        // }
+                        handleChange
                       }
                       renderInput={(params) => <TextField {...params} />} 
                     />
@@ -149,7 +178,7 @@ const ModalReservation = (props) => {
                 <Button                                               
                 fullWidth 
                 variant="contained" 
-                color="success">
+                color="success" onClick={reserver}>
                   Confirmer la réservation
                 </Button>
               </form>
