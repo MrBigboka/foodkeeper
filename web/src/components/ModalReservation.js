@@ -50,7 +50,15 @@ const ModalReservation = (props) => {
         handleClose()
         navigate('/profilclient')
     } else {
-        console.log(response.status);
+      try {
+        const erreur = await response.json()
+        console.log(erreur.error)
+        alert(erreur.error);
+
+      } catch (e) {
+        console.log('erreur');
+      }
+      console.log(response.status);
     }
   }
 
