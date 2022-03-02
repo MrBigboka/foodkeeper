@@ -6,11 +6,12 @@ import serveur from './constantes';
 import Reservation from './components/Reservations'
 import { compose } from "@mui/system";
 import Restaurants from "./components/Restaurants";
+import { useNavigate } from "react-router-dom";
 
 const ProfilClient = () => {
-  const classes = useStyles(); 
+  const classes = useStyles();
   const tokenContext = useContext(TokenContext);
-
+  const navigate = useNavigate();
   const [reservation, setReservation] = useState([]) ;
 
   useEffect(() => {
@@ -25,8 +26,11 @@ const ProfilClient = () => {
     });
       if (response.ok) {
         let data = await response.json();
+        console.log(data);
         console.log(tokenContext);
-        setReservation(data)
+        if (data === true) {
+          return navigate('/profile');
+        } else { setReservation(data) }
       } else {
         console.log("une erreur s'est produite lors de l'appel à /reservation/client");
       }
@@ -51,13 +55,13 @@ const ProfilClient = () => {
                   { reservation !== null &&
                     <Grid container spacing={4}>
                         {reservation.map((res) => (
-                            <Reservation reservation={res} key={res.id} idResto={res.restaurantId}/>  
-                        ))} 
+                            <Reservation reservation={res} key={res.id} idResto={res.restaurantId}/>
+                        ))}
                     </Grid>
                   }
-                  { reservation.length <= 0 && 
-                    <Typography variant="overline" gutterBottom> 
-                      Désolée vous n'avez aucune réservation.. 
+                  { reservation.length <= 0 &&
+                    <Typography variant="overline" gutterBottom>
+                      Désolée vous n'avez aucune réservation..
                     </Typography>
                   }
                   </div>

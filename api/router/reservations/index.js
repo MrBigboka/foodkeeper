@@ -4,7 +4,12 @@ const db = require('../../modules/db');
 const router = express.Router();
 
 router.get('/client/', async (request, response) => {
-  const reservation = await db('reservations')
+    const ifRestaurateur = await db('users').select('type').where('id', request.user.id).first();
+    console.log(ifRestaurateur.type);
+    if (ifRestaurateur.type) {
+        return response.status(200).json(true);
+    }
+  const reservation = await db('reservations').join('restaurants', 'reservations.restaurantId', '=', 'restaurants.id')
     .where('clientId', request.user.id);
   return response.status(200).json(reservation);
 });
@@ -23,6 +28,11 @@ router.get('/:reservationId', async (request, response) => {
 });
 
 router.post('/', async (request, response) => {
+    const ifRestaurateur = await db('users').select('type').where('id', request.user.id).first();
+    console.log(ifRestaurateur.type);
+    if (ifRestaurateur.type) {
+        return response.status(401).json('Vous etes un restaurateur et non un client.');
+    }
   try {
     const {
       restaurantId,

@@ -8,8 +8,8 @@ import { Typography, Button, Card, Stack, CardContent, CardActions, Grid } from 
 function Reservations(props) {
     const navigate = useNavigate();
     const classes = useStyles();
-    const tokenContext = useContext(TokenContext); 
-
+    const tokenContext = useContext(TokenContext);
+    const date = new Date(props.reservation.date);
     const deleteReserv = async () => {
         const bearerToken = `bearer ${tokenContext.token}`;
         const response = await fetch(`${serveur}/reservations/${props.reservation.id}`, {
@@ -35,7 +35,7 @@ function Reservations(props) {
             <Card className={classes.card}>
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5">
-                        Réservation chez <b>nomResto</b>
+                        Réservation chez <b>{props.reservation.nomResto}</b>
                     </Typography>
                     <Typography variant="subtitle1">
                         <b> Nom sur la réservation :</b> {props.reservation.prenom} {props.reservation.nom}
@@ -44,7 +44,7 @@ function Reservations(props) {
                         <b> Nombre de personnes : </b> {props.reservation.nbPersonnes} personnes
                     </Typography>
                     <Typography variant="subtitle1">
-                        <b> Date de la réservation : </b> {props.reservation.date}
+                        <b> Heure de la réservation : </b> {date.toString()}
                     </Typography>
                     <Typography variant="subtitle1">
                         <b> Téléphone : </b> {props.reservation.telephone}
@@ -58,10 +58,10 @@ function Reservations(props) {
                         sx={{ pt: 4 }}
                         direction="row"
                         spacing={1}
-                    >   
-                            <Button 
+                    >
+                            <Button
                                 //onClick={handleDelete}
-                                style={{ background:'#2E3B55' }} 
+                                style={{ background:'#2E3B55' }}
                                 size="small"
                                 variant="contained">
                                 Modifier ma réservation
@@ -75,7 +75,7 @@ function Reservations(props) {
             </Card>
        </Grid>
     )
-}   
+}
 
 
 export default Reservations
