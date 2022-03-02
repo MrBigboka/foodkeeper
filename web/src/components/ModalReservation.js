@@ -52,7 +52,6 @@ const ModalReservation = (props) => {
     } else {
       try {
         const erreur = await response.json()
-        console.log(erreur.error)
         alert(erreur.error);
 
       } catch (e) {

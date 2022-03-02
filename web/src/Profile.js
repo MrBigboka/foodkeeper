@@ -1,11 +1,8 @@
 import React, {useEffect, useState, useContext} from "react";
-import {Typography, CssBaseline, Container, Button, Stack, Alert} from '@mui/material';
-import backgroundGif from './media/foodkeep.gif'
-// import {serveur} from "./constantes"
+import {Typography, CssBaseline, Container, Button, Alert} from '@mui/material';
 import useStyles from './styles';
 import { useNavigate } from "react-router-dom";
 import {TokenContext} from "./App";
-import Toolbar from "@mui/material/Toolbar";
 import {TextField} from "@material-ui/core";
 import TimePicker from '@mui/lab/TimePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -43,7 +40,6 @@ const Profile = () => {
     const [repas, setRepas] = useState('');
     const [succes, setSucces] = useState(null);
     async function update() {
-        console.log();
         const bearerToken = `bearer ${tokenContext.token}`;
         const response = await fetch('http://localhost:3000/profile', {
             method: 'POST',
@@ -55,7 +51,6 @@ const Profile = () => {
         if (response.ok) {
             const data = await response.json();
             setSucces(data);
-            console.log(data);
         } else {
             console.error(response.statusText);
         }
@@ -65,7 +60,6 @@ const Profile = () => {
 
         // HTML file input, chosen by user
         formData.append("image", document.getElementById('input').files[0]);
-        console.log(formData);
         // JavaScript file-like object
         // var content = '<a id="a"><b id="b">hey!</b></a>'; // the body of the new file...
         // var blob = new Blob([content], { type: "text/xml"});
@@ -87,9 +81,6 @@ const Profile = () => {
             },
         });
         if (response.ok) {
-            const data = await response.json();
-            // setSucces(data);
-            console.log(data);
             alert('Succes');
             navigate("/");
         } else {
@@ -109,7 +100,6 @@ const Profile = () => {
             });
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
                 if (data.restaurant.ouverture) {
                     setOuverture(data.restaurant.ouverture);
                 }

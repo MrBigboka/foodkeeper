@@ -28,7 +28,6 @@ const ListeRestaurants = () => {
       }, []);
     const handleResto = (newValue) => {
         setRecherche(newValue.target.value);
-        console.log(newValue.target.value);
         if (newValue.target.value !== '' || recherche === '') {
             let temp = restaurants.filter((resto) =>
                 resto.nomResto.toLowerCase().includes(newValue.target.value.toLowerCase())

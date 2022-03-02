@@ -21,7 +21,6 @@ const DetailRestaurant = () => {
       async function componentDidMount() {
         // obtenir les restaurants
         let url = `${serveur}/restaurants/${RestaurantId}`;
-        console.log(url)
         let resultatResto = await fetch(url);
         if (resultatResto.ok) {
           let data = await resultatResto.json();

@@ -11,13 +11,12 @@ function Reservations(props) {
     const classes = useStyles();
     const tokenContext = useContext(TokenContext);
     const date = new Date(props.reservation.date);
-    
+
     const [openModal, setOpenModal] = useState(false);
 
     const handleOpen = () => setOpenModal(true);
 
     const deleteReserv = async () => {
-        console.log(props.reservation.id[0]);
         const bearerToken = `bearer ${tokenContext.token}`;
         const response = await fetch(`${serveur}/reservations/${props.reservation.id[0]}`, {
             method: 'DELETE',
@@ -40,7 +39,7 @@ function Reservations(props) {
                     <Typography gutterBottom variant="h5">
                         Réservation chez <b>{props.reservation.nomResto}</b>
                     </Typography>
-                    <Typography variant="subtitle1">    
+                    <Typography variant="subtitle1">
                         <b> Nom sur la réservation :</b> {props.reservation.prenom} {props.reservation.nom}
                     </Typography>
                     <Typography variant="subtitle1">
@@ -61,10 +60,10 @@ function Reservations(props) {
                             sx={{ pt: 4 }}
                             direction="row"
                             spacing={1}
-                        >   
-                            <Button 
+                        >
+                            <Button
                                 onClick={handleOpen}
-                                style={{ background:'#2E3B55' }} 
+                                style={{ background:'#2E3B55' }}
                                 size="small"
                                 variant="contained">
                                 Modifier ma réservation
@@ -72,7 +71,7 @@ function Reservations(props) {
                             <Button onClick={deleteReserv} variant='outlined' size="small" color="error">
                                 Supprimer ma réservation
                             </Button>
-                            <ModalModifReservation 
+                            <ModalModifReservation
                                 openModal={openModal}
                                 setOpenModal={setOpenModal}
                                 reservation={props.reservation}

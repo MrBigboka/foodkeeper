@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get('/client/', async (request, response) => {
     const ifRestaurateur = await db('users').select('type').where('id', request.user.id).first();
-    console.log(ifRestaurateur.type);
     if (ifRestaurateur.type) {
         return response.status(200).json(true);
     }
@@ -62,10 +61,9 @@ router.post('/', async (request, response) => {
     const capaciteMax = await db('restaurants').select('capacites').where('id', restaurantId).first();
     let howManyPlacesLeft = db.raw(`SELECT sum(nbPersonnes) as sum_score from reservations where DAY(date) = DAY('${date}') and restaurantId = ${restaurantId}`);
     howManyPlacesLeft = await howManyPlacesLeft;
-    console.log('en ce monent place prise', (parseInt(howManyPlacesLeft[0].sum_score) || 0));
-    console.log('capcites', ((parseInt(capaciteMax.capacites) || 0)));
-    console.log('demande', parseNbPer);
-    // console.log(((parseInt(capaciteMax) || 0) - (parseInt(howManyPlacesLeft) || 0) - parseNbPer) >= 0);
+    // console.log('en ce monent place prise', (parseInt(howManyPlacesLeft[0].sum_score) || 0));
+    // console.log('capcites', ((parseInt(capaciteMax.capacites) || 0)));
+    // console.log('demande', parseNbPer);
     if (((parseInt(capaciteMax.capacites) || 0) - (parseInt(howManyPlacesLeft[0].sum_score) || 0) - parseNbPer) < 0) {
       return response.status(404).json({ error: `Il ne reste que ${((parseInt(capaciteMax.capacites) || 0) - (parseInt(howManyPlacesLeft[0].sum_score) || 0))} places`});
     }
