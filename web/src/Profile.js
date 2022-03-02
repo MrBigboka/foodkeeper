@@ -35,13 +35,19 @@ const Profile = () => {
     const [fermeture, setFermeture] = React.useState('2014-08-18T22:00:00')
     const [capacites, setCapacites] = useState('');
     const [description, setDescription] = useState('');
+
+    const [caracteristique, setCaract] = useState('');
+    const [fourchette, setFourc] = useState('');
+    const [cuisines, setCuisine] = useState('');
+    const [regime, setRegim] = useState('');
+    const [repas, setRepas] = useState('');
     const [succes, setSucces] = useState(null);
     async function update() {
         console.log();
         const bearerToken = `bearer ${tokenContext.token}`;
         const response = await fetch('http://localhost:3000/profile', {
             method: 'POST',
-            body: JSON.stringify({ nomResto, nbTables, capacites, description, ouverture, fermeture}),
+            body: JSON.stringify({ nomResto, nbTables, capacites, description, ouverture, fermeture, caracteristique, fourchette, cuisines, regime, repas}),
             headers: { 'Content-Type': 'application/json; charset=utf-8',
                 Authorization: bearerToken,
             },
@@ -146,6 +152,12 @@ const Profile = () => {
                             Capacité: {profile.restaurant.capacites} <br/>
                             Nombre de tables: {profile.restaurant.nbTables} <br/>
                             Description: {profile.restaurant.description} <br/>
+                            Caractéristique: {profile.restaurant.caracteristique} <br/>
+                            Description: {profile.restaurant.description} <br/>
+                            Fourchette: {profile.restaurant.fourchette} <br/>
+                            Cuisines: {profile.restaurant.cuisines} <br/>
+                            Régime: {profile.restaurant.regime} <br/>
+                            Repas: {profile.restaurant.repas} <br/>
                         </Typography>
                         <Typography className={classes.white} variant="h5" color='black' align="center" paragraph>
                             Modifier les informations du restaurant
@@ -166,6 +178,16 @@ const Profile = () => {
                                        value={capacites} onInput={e => setCapacites(e.target.value)}/> <br/>
                             <TextField id="standard-basic" label="Nombre de tables" variant="standard"
                                        value={nbTables} onInput={e => setNbTables(e.target.value)}/> <br/> <br/>
+                            <TextField id="standard-basic" label="Caracteristique" variant="standard"
+                                       value={caracteristique} onInput={e => setCaract(e.target.value)}/> <br/> <br/>
+                            <TextField id="standard-basic" label="Fourchettes de prix" variant="standard"
+                                       value={fourchette} onInput={e => setFourc(e.target.value)}/> <br/> <br/>
+                            <TextField id="standard-basic" label="Type de cuisines" variant="standard"
+                                       value={cuisines} onInput={e => setCuisine(e.target.value)}/> <br/> <br/>
+                            <TextField id="standard-basic" label="Régime" variant="standard"
+                                       value={regime} onInput={e => setRegim(e.target.value)}/> <br/> <br/>
+                            <TextField id="standard-basic" label="Repas" variant="standard"
+                                       value={repas} onInput={e => setRepas(e.target.value)}/> <br/> <br/>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                             {/*<Typography>Heure d'ouverture: {ouverture}</Typography> <br/> <br/>*/}
                             <TimePicker

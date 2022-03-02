@@ -21,7 +21,7 @@ function Reservations(props) {
         });
         if (response.ok) {
             alert('Réservation annulée !');
-            navigate('/');
+            navigate('/profile');
         } else {
             console.log(response.status);
         }

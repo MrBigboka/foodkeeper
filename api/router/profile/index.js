@@ -52,16 +52,36 @@ router.post('/', async (request, response) => {
   function throwError() {
     return response.status(404).json('Erreur, mettre les bons details');
   }
-  console.log('L\'identité reliée au bearer token est:', JSON.stringify(request.user, null, 4));
+  // console.log('L\'identité reliée au bearer token est:', JSON.stringify(request.user, null, 4));
   const user = request.user;
-  console.log(user);
+  // console.log(user);
   const updates = [];
   const {
-    description, capacites, nbTables, nomResto, ouverture, fermeture
+    description, capacites, nbTables, nomResto, ouverture, fermeture, caracteristique, fourchette, cuisines, regime, repas
   } = request.body;
   if (description) {
     await db('restaurants').where('usernameId', user.id).update('description', description);
     updates.push('description');
+  }
+  if (caracteristique) {
+    await db('restaurants').where('usernameId', user.id).update('caracteristique', caracteristique);
+    updates.push('caracteristique');
+  }
+  if (fourchette) {
+    await db('restaurants').where('usernameId', user.id).update('fourchette', fourchette);
+    updates.push('fourchette');
+  }
+  if (cuisines) {
+    await db('restaurants').where('usernameId', user.id).update('cuisines', cuisines);
+    updates.push('cuisines');
+  }
+  if (repas) {
+    await db('restaurants').where('usernameId', user.id).update('repas', repas);
+    updates.push('repas');
+  }
+  if (regime) {
+    await db('restaurants').where('usernameId', user.id).update('regime', regime);
+    updates.push('regime');
   }
   if (capacites) {
     if (parseInt(capacites) > 0) {

@@ -24,7 +24,9 @@ export default function Menu() {
     const login = () => {
         navigate('/login');
     }
-
+    const allerProfil = () => {
+        navigate('/profilclient');
+    }
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -82,7 +84,7 @@ export default function Menu() {
                                     onClick={handleMenu}
                                     color="inherit"
                                 >
-                                    <AccountCircle />
+                                    <AccountCircle onClick={allerProfil} />
                                 </IconButton>
                                 {/*<Menu
                                     id="menu-appbar"
