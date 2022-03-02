@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import serveur from '../constantes';
+import { useNavigate } from "react-router-dom";
 import {TokenContext} from "../App";
 import { Typography, Button, Modal, Box, TextField, InputAdornment } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,6 +12,7 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 
 const ModalReservation = (props) => {
   const tokenContext = useContext(TokenContext);
+  const navigate = useNavigate();
 
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
@@ -45,6 +47,8 @@ const ModalReservation = (props) => {
     if (response.ok) {
         const data = await response.json();
         console.log(`Réservation confirmer: ${data.reservationId}`)
+        handleClose()
+        navigate('/profilclient')
     } else {
         console.log(response.status);
     }
