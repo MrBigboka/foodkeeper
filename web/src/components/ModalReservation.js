@@ -27,7 +27,7 @@ const ModalReservation = (props) => {
 
   async function postReservation() {
     const bearerToken = `bearer ${tokenContext.token}`;
-    const response = await fetch(`${serveur}/reservation`, {
+    const response = await fetch(`${serveur}/reservations`, {
         method: 'POST',
         body: JSON.stringify({ 
           restaurantId: props.restoId, 
