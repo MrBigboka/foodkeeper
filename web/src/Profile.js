@@ -146,7 +146,7 @@ const Profile = () => {
                         <Typography className={classes.white} variant="h6" color='black' align="center" paragraph>
                             Nom d'utilisateur: {profile.user.username} <br/>
                         </Typography>
-                        <img style={{marginLeft: "auto", marginRight: "auto", display: "block"}} src={'http://localhost:3000/images/'+profile.restaurant.photo} alt={'Image de votre restaurant ici'}/> <br/>
+                        <img style={{marginLeft: "auto", marginRight: "auto", display: "block", maxWidth: 100, height: 'auto'}} src={'http://localhost:3000/images/'+profile.restaurant.photo} alt={'Image de votre restaurant ici'}/> <br/>
                         <Typography className={classes.white} variant="h7" color='black' align="center" paragraph>
                             Nom du restaurant: {profile.restaurant.nomResto} <br/>
                             Capacité: {profile.restaurant.capacites} <br/>

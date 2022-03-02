@@ -9,7 +9,7 @@ import {useParams} from "react-router-dom";
 
 const DetailRestaurant = () => {
     const params = useParams();
-    const classes = useStyles(); 
+    const classes = useStyles();
     const { RestaurantId } = params;
     const [openModal, setOpenModal] = useState(false);
     const [restaurant, setRestaurant] = useState();
@@ -38,7 +38,7 @@ const DetailRestaurant = () => {
     return (
       <>
         <CssBaseline/>
-        <main>  
+        <main>
             { restaurant !== undefined &&
             <div className={classes.background}>
               <Container maxWidth="md">
@@ -57,7 +57,7 @@ const DetailRestaurant = () => {
                     </div>
                   </Grid>
                   <Grid item xs={4}>
-                    <img className={classes.imageSlide} src="https://tastet.ca/wp-content/uploads/2019/04/le-filet-restaurant-montreal1.jpg" alt="restaurant" />
+                    <img className={classes.imageSlide} src={`${serveur}/images/${restaurant.photo}`} alt="restaurant" />
                   </Grid>
                   <Grid item xs={12}>
                     <Typography variant="h6">
