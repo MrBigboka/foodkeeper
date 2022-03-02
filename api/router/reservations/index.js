@@ -100,13 +100,13 @@ router.put('/:reservationId', async (request, response) => {
   } = request.body;
 
   const reservationExist = await db('reservations')
-    .where('id', reservationExist)
+    .where('id', reservationId)
     .first();
   if (!reservationExist) {
     return response.status(400).json({ message: 'Cette réservation est introuvable' });
   }
 
-  await db('reservation')
+  await db('reservations')
     .update({
       nom,
       prenom,

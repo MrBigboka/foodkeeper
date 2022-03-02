@@ -63,7 +63,8 @@ const Home = () => {
                                     S'inscrire
                                 </Button>
                                 <Button 
-                                variant="outlined" onClick={login}>
+                                variant="outlined" 
+                                onClick={login}>
                                     Se connecter
                                 </Button>
                             </Stack>

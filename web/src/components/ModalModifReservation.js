@@ -7,17 +7,19 @@ import IconButton from '@mui/material/IconButton';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DateTimePicker from '@mui/lab/DateTimePicker';
+import { useNavigate } from "react-router-dom";
 
 
 const ModalModifReservation = (props) => {
   const tokenContext = useContext(TokenContext);
+  const navigate = useNavigate();
 
-  const [nom, setNom] = useState('');
-  const [prenom, setPrenom] = useState('');
-  const [telephone, setTelephone] = useState('');
-  const [nbPersonnes, setNbPersonnes] = useState(0);
-  const [date, setDate] = React.useState(new Date());
-  const [note, setNote] = useState('');
+  const [nom, setNom] = useState(`${props.reservation.nom}`);
+  const [prenom, setPrenom] = useState(`${props.reservation.prenom}`);
+  const [telephone, setTelephone] = useState(`${props.reservation.telephone}`);
+  const [nbPersonnes, setNbPersonnes] = useState(`${props.reservation.nbPersonnes}`);
+  const [date, setDate] = React.useState(`${props.reservation.date}`);
+  const [note, setNote] = useState(`${props.reservation.note}`);
 
   const handleClose = () => props.setOpenModal(false);
 
@@ -25,10 +27,10 @@ const ModalModifReservation = (props) => {
     setDate(newValue);
   };
 
-  async function postReservation() {
+  async function modifReservation() {
     const bearerToken = `bearer ${tokenContext.token}`;
-    const response = await fetch(`${serveur}/reservations`, {
-        method: 'POST',
+    const response = await fetch(`${serveur}/reservations/${props.reservation.id[0]}`, {
+        method: 'PUT',
         body: JSON.stringify({ 
           restaurantId: props.restoId, 
           nom, 
@@ -43,8 +45,8 @@ const ModalModifReservation = (props) => {
         },
     });
     if (response.ok) {
-        const data = await response.json();
-        console.log(`Réservation confirmer: ${data[0]}`)
+        alert('Réservation modifiée !');
+        navigate('/')
     } else {
         console.log(response.status);
     }
@@ -76,10 +78,10 @@ const ModalModifReservation = (props) => {
               <CloseIcon onClick={handleClose}/>
             </IconButton>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Réserver une table chez {props.nomResto}
+            Modifier ma réservation chez {props.reservation.nomResto}
           </Typography>
           <Typography id="modal-modal-description" style={{ marginBottom: '10px' }} sx={{ mt: 1 }}>
-            Veuiller remplir les champs ci-dessous.
+            Veuiller modifier les champs ci-dessous.
           </Typography>
           <div>
             <form>
@@ -174,9 +176,9 @@ const ModalModifReservation = (props) => {
                 <Button                                               
                   fullWidth 
                   variant="contained" 
-                  onClick={postReservation}
+                  onClick={modifReservation}
                   color="success">
-                  Confirmer la réservation
+                  Modifier mes informations
                 </Button>
               </form>
           </div>
