@@ -44,7 +44,7 @@ function Reservations(props) {
                         <b> Nombre de personnes : </b> {props.reservation.nbPersonnes} personnes
                     </Typography>
                     <Typography variant="subtitle1">
-                        <b> Heure de la réservation : </b> {props.reservation.date}
+                        <b> Date de la réservation : </b> {props.reservation.date}
                     </Typography>
                     <Typography variant="subtitle1">
                         <b> Téléphone : </b> {props.reservation.telephone}
