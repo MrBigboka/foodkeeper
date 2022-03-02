@@ -32,7 +32,12 @@ const Home = () => {
                         <Typography className={classes.white} variant="h5" align="center" paragraph>
                             Bienvenue sur FoodKeeper. Le site numéro un pour les réservations dans le milieu de la restauration !
                         </Typography>
-                        <div className='footer'>
+                            <Stack
+                                direction="row"
+                                justifyContent="center"
+                                alignItems="baseline"
+                                spacing={2}
+                            >
                                 <Button
                                     variant="contained"
                                     onClick={register}>
@@ -42,7 +47,7 @@ const Home = () => {
                                 variant="outlined" onClick={login}>
                                     Se connecter
                                 </Button>
-                        </div>
+                            </Stack>
                 </Container>
             </div>
         </main>

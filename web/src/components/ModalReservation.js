@@ -27,8 +27,6 @@ const ModalReservation = (props) => {
 
   async function postReservation() {
     const bearerToken = `bearer ${tokenContext.token}`;
-        'Content-Type': 'application/json; charset=utf-8',
-        Authorization: bearerToken,
     const response = await fetch(`${serveur}/reservation`, {
         method: 'POST',
         body: JSON.stringify({ 
@@ -40,7 +38,8 @@ const ModalReservation = (props) => {
           note,
           date,}),
         headers: {
-            Authorization: bearerToken,
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: bearerToken,
         },
     });
     if (response.ok) {
@@ -62,10 +61,7 @@ const ModalReservation = (props) => {
     boxShadow: 24,
     p: 4,
   };
-  useEffect(() => {
-    console.log("useEffect called a modal", props.restoId);
-    componentDidMount();
-  }, ['tokenContext.token'])
+  
   return (
     <>
     {props.openModal ?
