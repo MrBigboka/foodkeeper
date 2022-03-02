@@ -3,7 +3,7 @@ const db = require('../../modules/db');
 
 const router = express.Router();
 
-router.get('/client/:clientId', async (request, response) => {
+router.get('/client/', async (request, response) => {
   const { clientId } = request.params;
   const reservation = await db('reservation')
     .where('clientId', clientId);
@@ -19,13 +19,13 @@ router.get('/restaurant/:restaurantId', async (request, response) => {
 
 router.get('/:reservationId', async (request, response) => {
   const { reservationId } = request.params;
-  const reservation = await db('reservation').where('id', reservationId).first();
+  const reservation = await db('reservations').where('id', reservationId).first();
   return response.status(200).json(reservation);
 });
 
 router.post('/', async (request, response) => {
   try {
-    const {
+    let {
       restaurantId,
       nom,
       prenom,
@@ -34,11 +34,17 @@ router.post('/', async (request, response) => {
       note,
       date,
     } = request.body;
-
-    const reservation = await db('reservation')
+    let parseNbPer = parseInt(nbPersonnes) || 0;
+    if (!date) {
+      return response.status(404).json({ error: 'il faut une date'});
+    }
+    if (parseNbPer <= 0) {
+      return response.status(404).json({ error: 'nb personnes pas bon'});
+    }
+    const reservation = await db('reservations')
       .insert({
-        clientId: request.user.id,
         restaurantId,
+        clientId: request.user.id,
         nom,
         prenom,
         telephone,
@@ -49,7 +55,7 @@ router.post('/', async (request, response) => {
 
     return response.status(201).json({ reservationId: reservation[0] });
   } catch (e) {
-    return response.status(401).json('Erreur dans la requete');
+    return response.status(401).json(e);
   }
 
 });

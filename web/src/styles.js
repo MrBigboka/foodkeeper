@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
     mainColor: {
         color: '#2E3B55',
     },
+    ButtonsItemRight: {
+        float: "right",
+        position: "relative",
+    },
     secondaryColor: {
         color: '',
     },

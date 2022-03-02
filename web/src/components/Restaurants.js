@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {Link} from "react-router-dom";
 import serveur from '../constantes'
 import useStyles from '../styles';
-import { Typography, Button, Card, CardMedia, CardContent, CardActions, Grid } from '@mui/material';
+import {Typography, Button, Card, CardMedia, CardContent, CardActions, Grid} from '@mui/material';
 import ModalReservation from "./ModalReservation";
 
 function Restaurants(props) {
@@ -10,7 +10,10 @@ function Restaurants(props) {
     const image = `${serveur}/images/${props.resto.photo}`
     const [openModal, setOpenModal] = useState(false);
 
-    const handleOpen = () => setOpenModal(true);
+    // const handleOpen = () => setOpenModal(true);
+    function handleOpen() {
+        setOpenModal(true);
+    }
 
 
     return (
@@ -25,7 +28,7 @@ function Restaurants(props) {
                         {props.resto.description}
                     </Typography>
                     <CardActions>
-                    <Button onClick={handleOpen} 
+                    <Button onClick={handleOpen}
                             style={{ background:'#2E3B55'}} 
                             size="small" 
                             variant="contained">

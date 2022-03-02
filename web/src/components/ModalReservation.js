@@ -16,9 +16,9 @@ const ModalReservation = (props) => {
   const [prenom, setPrenom] = useState('');
   const [telephone, setTelephone] = useState('');
   const [nbPersonnes, setNbPersonnes] = useState(0);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = React.useState(new Date());
   const [note, setNote] = useState('');
-  
+
   const handleClose = () => props.setOpenModal(false);
 
   const handleChange = (newValue) => {
@@ -27,6 +27,8 @@ const ModalReservation = (props) => {
 
   async function postReservation() {
     const bearerToken = `bearer ${tokenContext.token}`;
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: bearerToken,
     const response = await fetch(`${serveur}/reservation`, {
         method: 'POST',
         body: JSON.stringify({ 
@@ -60,7 +62,10 @@ const ModalReservation = (props) => {
     boxShadow: 24,
     p: 4,
   };
-
+  useEffect(() => {
+    console.log("useEffect called a modal", props.restoId);
+    componentDidMount();
+  }, ['tokenContext.token'])
   return (
     <>
     {props.openModal ?
@@ -184,5 +189,4 @@ const ModalReservation = (props) => {
     : null} </>
   )
 }
-
 export default ModalReservation;
