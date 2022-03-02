@@ -4,9 +4,8 @@ const db = require('../../modules/db');
 const router = express.Router();
 
 router.get('/client/', async (request, response) => {
-  const { clientId } = request.params;
   const reservation = await db('reservation')
-    .where('clientId', clientId);
+    .where('clientId', request.user.id);
   return response.status(200).json(reservation);
 });
 

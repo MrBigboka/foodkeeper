@@ -1,34 +1,53 @@
-import React, { useState, useContext } from "react";
-import {Link} from "react-router-dom";
+import React, { useContext } from "react";
 import serveur from '../constantes'
 import useStyles from '../styles';
+import {TokenContext} from "../App";
 import { Typography, Button, Card, Stack, CardContent, CardActions, Grid } from '@mui/material';
 
 function Reservations(props) {
-    const classes = useStyles(); 
+    const classes = useStyles();
+    const tokenContext = useContext(TokenContext); 
 
+    const deleteReserv = async () => {
+        const bearerToken = `bearer ${tokenContext.token}`;
+        const response = await fetch(`${serveur}/reservations/${props.reservation.id}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: bearerToken,
+            },
+        });
+        if (response.ok) {
+            console.log('Réservation annulée !')
+        } else {
+            console.log(response.status);
+        }
+    }
+
+    const modifReserv = () => {
+        
+    }
 
     return (
         <Grid item key={props.reserv} xs={12} sm={12} md={12}>
             <Card className={classes.card}>
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5">
-                        Réservation chez <b>NomResto</b>
+                        Réservation chez <b>nomResto</b>
                     </Typography>
                     <Typography variant="subtitle1">
-                        <b> Nom sur la réservation :</b> Nom, Prenom
+                        <b> Nom sur la réservation :</b> {props.reservation.prenom} {props.reservation.nom}
                     </Typography>
                     <Typography variant="subtitle1">
-                        <b> Nombre de personnes : </b> x personnes
+                        <b> Nombre de personnes : </b> {props.reservation.nbPersonnes} personnes
                     </Typography>
                     <Typography variant="subtitle1">
-                        <b> Heure de la réservation : </b> Date
+                        <b> Heure de la réservation : </b> {props.reservation.date}
                     </Typography>
                     <Typography variant="subtitle1">
-                        <b> Téléphone : </b> 514-222-2222
+                        <b> Téléphone : </b> {props.reservation.telephone}
                     </Typography>
                     <Typography variant="subtitle1">
-                        <b> Note : </b> Loremblablabla
+                        <b> Note : </b> {props.reservation.note }
                     </Typography>
                     <CardActions>
                     <Stack

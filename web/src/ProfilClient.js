@@ -4,18 +4,20 @@ import useStyles from './styles';
 import {TokenContext} from "./App";
 import serveur from './constantes';
 import Reservation from './components/Reservations'
+import { compose } from "@mui/system";
+import Restaurants from "./components/Restaurants";
 
 const ProfilClient = () => {
   const classes = useStyles(); 
   const tokenContext = useContext(TokenContext);
 
-  const [reservation, setReservation] = useState([]) 
+  const [reservation, setReservation] = useState([]) ;
 
   useEffect(() => {
     async function componentDidMount() {
       // obtenir les réservation du client
       const bearerToken = `bearer ${tokenContext.token}`
-      const response = await fetch(`${serveur}/reservation/client/${tokenContext}`, {
+      const response = await fetch(`${serveur}/reservations/client`, {
         method: 'GET',
         headers: {
             Authorization: bearerToken,
@@ -23,13 +25,13 @@ const ProfilClient = () => {
     });
       if (response.ok) {
         let data = await response.json();
+        console.log(tokenContext);
         setReservation(data)
       } else {
         console.log("une erreur s'est produite lors de l'appel à /reservation/client");
       }
     }
     componentDidMount().then(() => console.log("componentDidMount terminé"));
-    console.log("ListeRestaurant.useEffect terminé");
   }, []);
 
   return (
@@ -38,7 +40,7 @@ const ProfilClient = () => {
         <main>
             <Container maxWidth="md">
               <div className={classes.header}>
-                <Typography className={classes.title} variant="h2" gutterBottom> Profil de username </Typography>
+                <Typography className={classes.title} variant="h2" gutterBottom> Profil </Typography>
               </div>
               <div className='reservations'>
                 <div>
@@ -49,7 +51,7 @@ const ProfilClient = () => {
                   { reservation !== null &&
                     <Grid container spacing={4}>
                         {reservation.map((res) => (
-                            <Reservation reservation={res} key={res}/>  
+                            <Reservation reservation={res} key={res.id} idResto={res.restaurantId}/>  
                         ))} 
                     </Grid>
                   }

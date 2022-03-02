@@ -62,7 +62,7 @@ export default function Menu() {
                         </Link>
                     </MenuItem>
                     <MenuItem>
-                        <Link className={classes.styleRemover} to='/profile'>
+                        <Link className={classes.styleRemover} to='/profilclient'>
                             <Typography textAlign="center"> Profile </Typography>
                         </Link>
                     </MenuItem>
