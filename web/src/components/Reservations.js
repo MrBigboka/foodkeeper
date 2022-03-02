@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import serveur from '../constantes'
 import useStyles from '../styles';
+import { useNavigate } from "react-router-dom";
 import {TokenContext} from "../App";
 import { Typography, Button, Card, Stack, CardContent, CardActions, Grid } from '@mui/material';
 
 function Reservations(props) {
+    const navigate = useNavigate();
     const classes = useStyles();
     const tokenContext = useContext(TokenContext); 
 
@@ -18,13 +20,14 @@ function Reservations(props) {
         });
         if (response.ok) {
             console.log('Réservation annulée !')
+            navigate('/profilclient')
         } else {
             console.log(response.status);
         }
     }
 
     const modifReserv = () => {
-        
+
     }
 
     return (
@@ -63,7 +66,7 @@ function Reservations(props) {
                                 variant="contained">
                                 Modifier ma réservation
                             </Button>
-                            <Button style={{float: 'right'}} variant='outlined' size="small" color="error">
+                            <Button onClick={deleteReserv} variant='outlined' size="small" color="error">
                                 Supprimer ma réservation
                             </Button>
                         </Stack>

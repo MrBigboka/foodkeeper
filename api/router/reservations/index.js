@@ -94,7 +94,7 @@ router.delete('/:reservationId', async (request, response) => {
   const { reservationId } = request.params;
 
   const reservationExist = await db('reservation')
-    .where('reservationId', reservationId)
+    .where('id', reservationId)
     .first();
   if (!reservationExist) {
     return response.status(400).json({ message: 'Cette réservation est introuvable' });
