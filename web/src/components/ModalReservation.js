@@ -29,9 +29,9 @@ const ModalReservation = (props) => {
     const bearerToken = `bearer ${tokenContext.token}`;
     const response = await fetch(`${serveur}/reservations`, {
         method: 'POST',
-        body: JSON.stringify({ 
-          restaurantId: props.restoId, 
-          nom, 
+        body: JSON.stringify({
+          restaurantId: props.restoId,
+          nom,
           prenom,
           telephone,
           nbPersonnes,
@@ -44,7 +44,7 @@ const ModalReservation = (props) => {
     });
     if (response.ok) {
         const data = await response.json();
-        console.log(`Réservation confirmer: ${data[0]}`)
+        console.log(`Réservation confirmer: ${data.reservationId}`)
     } else {
         console.log(response.status);
     }
@@ -61,7 +61,7 @@ const ModalReservation = (props) => {
     boxShadow: 24,
     p: 4,
   };
-  
+
   return (
     <>
     {props.openModal ?
@@ -86,7 +86,7 @@ const ModalReservation = (props) => {
               <TextField
                 required
                 id="outlined-multiline-flexible"
-                style={{ marginRight: '20px'}}                                              
+                style={{ marginRight: '20px'}}
                 label="Nom"
                 margin="dense"
                 value={nom}
@@ -97,7 +97,7 @@ const ModalReservation = (props) => {
                     setNom(e.target.value)
                   }
                 }/>
-              <TextField 
+              <TextField
                   required
                   id="outlined-multiline-flexible"
                   value={prenom}
@@ -114,7 +114,7 @@ const ModalReservation = (props) => {
                   required
                   id="outlined-number"
                   margin="dense"
-                  style={{ marginRight: '20px', marginBottom: '10px' }}                                              
+                  style={{ marginRight: '20px', marginBottom: '10px' }}
                   value={nbPersonnes}
                   label="Nombre de personnes"
                   type="number"
@@ -151,7 +151,7 @@ const ModalReservation = (props) => {
                       value={date}
                       multiline
                       onChange={handleChange}
-                      renderInput={(params) => <TextField {...params} />} 
+                      renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
                 }
@@ -171,9 +171,9 @@ const ModalReservation = (props) => {
                     }
                   }
                 />
-                <Button                                               
-                  fullWidth 
-                  variant="contained" 
+                <Button
+                  fullWidth
+                  variant="contained"
                   onClick={postReservation}
                   color="success">
                   Confirmer la réservation
