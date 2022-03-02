@@ -20,7 +20,7 @@ const Profile = () => {
     }
 
     const [ouverture, setOuverture] = React.useState('2014-08-18T08:00:00');
-
+    function dashboard() {navigate('/dashboard')}
     const handleChange = (newValue) => {
         // data.restaurant.ouverture = data.restaurant.ouverture.substring(11, 16);
         setOuverture(newValue);
@@ -134,6 +134,9 @@ const Profile = () => {
                         <Typography className={classes.title} align="center" variant="h3" color='black' gutterBottom>
                             Profile du restaurant
                         </Typography>
+                        <div align="center">
+                        <Button variant="contained" onClick={dashboard}>Gérer les réservations</Button><br/>
+                        </div>
                         <Typography className={classes.white} variant="h6" color='black' align="center" paragraph>
                             Nom d'utilisateur: {profile.user.username} <br/>
                         </Typography>

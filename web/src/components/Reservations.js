@@ -11,16 +11,17 @@ function Reservations(props) {
     const tokenContext = useContext(TokenContext);
     const date = new Date(props.reservation.date);
     const deleteReserv = async () => {
+        console.log(props.reservation.id[0]);
         const bearerToken = `bearer ${tokenContext.token}`;
-        const response = await fetch(`${serveur}/reservations/${props.reservation.id}`, {
+        const response = await fetch(`${serveur}/reservations/${props.reservation.id[0]}`, {
             method: 'DELETE',
             headers: {
                 Authorization: bearerToken,
             },
         });
         if (response.ok) {
-            console.log('Réservation annulée !')
-            navigate('/profilclient')
+            alert('Réservation annulée !');
+            navigate('/');
         } else {
             console.log(response.status);
         }
