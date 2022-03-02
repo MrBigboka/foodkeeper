@@ -55,6 +55,10 @@ const DetailRestaurant = () => {
                         Réserver maintenant
                       </Button>
                     </div>
+                      <br/>
+                      <Typography align="left" variant="h6" gutterBottom>
+                          Heure d'ouverture: {restaurant.ouverture.substring(11,16)} - {restaurant.fermeture.substring(11,16)}
+                      </Typography>
                   </Grid>
                   <Grid item xs={4}>
                     <img className={classes.imageSlide} src={`${serveur}/images/${restaurant.photo}`} alt="restaurant" />
