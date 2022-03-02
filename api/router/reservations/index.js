@@ -4,14 +4,14 @@ const db = require('../../modules/db');
 const router = express.Router();
 
 router.get('/client/', async (request, response) => {
-  const reservation = await db('reservation')
+  const reservation = await db('reservations')
     .where('clientId', request.user.id);
   return response.status(200).json(reservation);
 });
 
 router.get('/restaurant/:restaurantId', async (request, response) => {
   const { restaurantId } = request.params;
-  const reservation = await db('reservation')
+  const reservation = await db('reservations')
     .where('restaurantId', restaurantId);
   return response.status(200).json(reservation);
 });
@@ -70,7 +70,7 @@ router.put('/:reservationId', async (request, response) => {
     date,
   } = request.body;
 
-  const reservationExist = await db('reservation')
+  const reservationExist = await db('reservations')
     .where('id', reservationExist)
     .first();
   if (!reservationExist) {
@@ -93,7 +93,7 @@ router.put('/:reservationId', async (request, response) => {
 router.delete('/:reservationId', async (request, response) => {
   const { reservationId } = request.params;
 
-  const reservationExist = await db('reservation')
+  const reservationExist = await db('reservations')
     .where('id', reservationId)
     .first();
   if (!reservationExist) {

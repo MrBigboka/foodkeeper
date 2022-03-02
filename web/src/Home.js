@@ -1,14 +1,15 @@
-//import React, {useEffect, useState} from "react";
+import React, { useContext } from "react";
 import { Typography, CssBaseline, Container, Button, Stack} from '@mui/material';
 import backgroundGif from './media/foodkeep.gif'
+import {TokenContext} from "./App";
 //import {serveur} from "./constantes"
 import useStyles from './styles';
 import { useNavigate } from "react-router-dom";
-import * as React from "react";
 
 const Home = () => {
     const classes = useStyles();
     const navigate = useNavigate();
+    const tokenContext = useContext(TokenContext); 
 
     const login = () => {
         navigate('/login');
@@ -17,9 +18,12 @@ const Home = () => {
     const register = () => {
         navigate('/register');
     }
-    const profile = () => {
-        navigate('/profile');
+
+    
+    const liste = () => {
+        navigate('/liste');
     }
+
     return (
       <>
         <CssBaseline/>
@@ -32,6 +36,21 @@ const Home = () => {
                         <Typography className={classes.white} variant="h5" align="center" paragraph>
                             Bienvenue sur FoodKeeper. Le site numéro un pour les réservations dans le milieu de la restauration !
                         </Typography>
+                        {tokenContext.token !== '' &&
+                            <Stack
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="baseline"
+                            spacing={2}
+                             >
+                                <Button
+                                    variant="contained"
+                                    onClick={liste}>
+                                    Liste des restaurants
+                                </Button>
+                            </Stack>
+                        }
+                        {tokenContext.token === '' &&
                             <Stack
                                 direction="row"
                                 justifyContent="center"
@@ -48,6 +67,7 @@ const Home = () => {
                                     Se connecter
                                 </Button>
                             </Stack>
+                        }
                 </Container>
             </div>
         </main>
