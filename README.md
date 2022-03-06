@@ -1,39 +1,61 @@
 # Guide pour FoodKeeper
 
 Installation:
+
 Frontend:
+
 cd web
+
 npm i
 
 Backend:
+
 cd api
+
 npm i
 
 Démarrer: 
+
 Il faut strictement ouvrir l'API en premier.
+
 cd api
+
 node index.js
 
 Ouvrir un deuxième terminal:
+
 cd web
+
 npm start
 
 Quand il demande de changer de port car le port 3000 est déjà pris, faire (y) pour démarrer le serveur React sur le port 3001.
 
 # Comment naviguer?
+
 Client:
+
 S'inscrire et faire les modifications à l'inscription si le site le demande.
+
 Se connecter pour accéder aux pages authentifiées.
+
 Aller sur Liste Restaurants pour voir les choix de restaurants pour réserver ou aller dans profil pour voir les réservations prises.
+
 Lorsqu'on clique un restaurant, on peut cliquer le button réserver.
+
 Dans profil, lorsqu'on clique une réservation, on peut la supprimer ou modifier des informations (notes, commentaires, nombre de personnes, etc)
 
 Restaurateur:
+
 S'inscrire et choisir un nom de restaurant.
+
 Se connecter pour accéder aux pages authentifiées.
+
 On peux voir la liste des restaurants MAIS on ne peut pas réserver (Le but est pour voir comment notre restaurant est affiché.)
+
 Dans profil, on peut changer toutes les informations affichées de notre restaurant (Image, nom, caractéristiques, etc)
+
 Dans cette page, on peut cliquer le bouton 'gérer réservations' pour voir les réservations prises par les clients.
+
 On peut aussi modifier et supprimer les réservations. (Dans le cas où le client a fini afin de libérer des places pour les prochaines personnes, annulation, etc)
 
 # Getting Started with Create React App
